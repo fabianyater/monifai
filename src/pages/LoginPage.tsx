@@ -1,11 +1,13 @@
 import { Button } from "primereact/button";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import { toast } from "sonner";
 import { loginUser } from "../api/endpoints/users";
 import { Input } from "../components/Input";
+import { useAuthContext } from "../hooks/useAuth";
 
 export const LoginPage = () => {
+  const { token, setToken, isLoading } = useAuthContext();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -66,7 +68,9 @@ export const LoginPage = () => {
       loading: "Iniciando sesión...",
       success: (res) => {
         setFormData({ email: "", password: "" });
-        return res.message || "Registro exitoso";
+        localStorage.setItem("token", res.data.accessToken);
+        setToken(res.data.accessToken);
+        return res.message || "Inicio de sesión exitoso";
       },
       error: (error) => {
         const message = error.response?.data?.message || "Error inesperado";
@@ -74,6 +78,14 @@ export const LoginPage = () => {
       },
     });
   };
+
+  if (isLoading) {
+    return toast.loading("Validando token...");
+  }
+
+  if (token) {
+    return <Navigate to="/private" replace />;
+  }
 
   return (
     <div className="flex flex-col-reverse md:flex-row justify-center items-center h-screen">
