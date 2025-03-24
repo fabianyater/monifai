@@ -1,8 +1,8 @@
-import { Button } from "primereact/button";
 import { useState } from "react";
 import { Link, Navigate } from "react-router";
 import { toast } from "sonner";
 import { Input } from "../components/atoms/Input";
+import { MaiButton } from "../components/atoms/MaiButton";
 import { useAuthContext } from "../lib/hooks/useAuth";
 import { loginUser } from "../services/auth/api";
 
@@ -116,7 +116,7 @@ export const LoginPage = () => {
             onChange={handleChange}
             error={errors.password}
           />
-          <Button type="submit" label="Inciar sesión" />
+          <MaiButton type="submit" label="Inciar sesión" />
         </form>
         <p className="text-sm">
           ¿No tienes una cuenta?{" "}

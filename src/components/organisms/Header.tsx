@@ -1,7 +1,7 @@
 import { Avatar } from "primereact/avatar";
-import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { useAuthContext } from "../../lib/hooks/useAuth";
+import { MaiButton } from "../atoms/MaiButton";
 
 type HeaderProps = {
   toggleSidebar: () => void;
@@ -13,7 +13,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
   return (
     <header className="w-full flex items-center justify-between py-4">
       <div className="flex items-center justify-center gap-2">
-        <Button
+        <MaiButton
           className="border-none focus:shadow-none"
           icon="pi pi-bars"
           size="large"

@@ -1,8 +1,8 @@
-import { Button } from "primereact/button";
 import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 import { Input } from "../components/atoms/Input";
+import { MaiButton } from "../components/atoms/MaiButton";
 import { registerUser } from "../services/users/api";
 
 export const RegisterPage = () => {
@@ -119,7 +119,7 @@ export const RegisterPage = () => {
             onChange={handleChange}
             error={errors.password}
           />
-          <Button type="submit" label="Registrarse" />
+          <MaiButton type="submit" label="Registrarse" />
         </form>
         <p className="text-sm">
           ¿Ya tienes una cuenta?{" "}
