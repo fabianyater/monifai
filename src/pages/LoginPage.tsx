@@ -84,7 +84,7 @@ export const LoginPage = () => {
   }
 
   if (token) {
-    return <Navigate to="/private" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   return (
