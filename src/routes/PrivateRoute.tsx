@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from "react-router";
 import { toast } from "sonner";
-import { useAuthContext } from "../hooks/useAuth";
+import { useAuthContext } from "../lib/hooks/useAuth";
 
 type PrivateRouteProps = {
   children: React.ReactNode;

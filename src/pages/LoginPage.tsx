@@ -2,9 +2,9 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { Link, Navigate } from "react-router";
 import { toast } from "sonner";
-import { loginUser } from "../api/endpoints/users";
-import { Input } from "../components/Input";
-import { useAuthContext } from "../hooks/useAuth";
+import { Input } from "../components/atoms/Input";
+import { useAuthContext } from "../lib/hooks/useAuth";
+import { loginUser } from "../services/auth/api";
 
 export const LoginPage = () => {
   const { token, setToken, isLoading } = useAuthContext();

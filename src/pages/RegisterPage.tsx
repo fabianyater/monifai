@@ -2,8 +2,8 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
-import { registerUser } from "../api/endpoints/users";
-import { Input } from "../components/Input";
+import { Input } from "../components/atoms/Input";
+import { registerUser } from "../services/users/api";
 
 export const RegisterPage = () => {
   const [formData, setFormData] = useState({
