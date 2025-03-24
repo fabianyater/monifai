@@ -4,7 +4,7 @@ import RoutesPage from "./routes/routes";
 function App() {
   return (
     <>
-      <RoutesPage></RoutesPage>;
+      <RoutesPage></RoutesPage>
       <Toaster position="top-right" />
     </>
   );

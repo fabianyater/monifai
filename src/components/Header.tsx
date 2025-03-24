@@ -1,0 +1,39 @@
+import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
+import { Tooltip } from "primereact/tooltip";
+import { useAuthContext } from "../hooks/useAuth";
+
+export const Header = () => {
+  const { user } = useAuthContext();
+
+  return (
+    <header className="w-full flex items-center justify-between py-4">
+      <div className="flex items-center justify-center gap-2">
+        <Button
+          className="border-none focus:shadow-none"
+          icon="pi pi-bars"
+          size="large"
+          rounded
+          style={{ backgroundColor: "transparent" }}
+        />
+        <h1 className="text-3xl font-normal">
+          Monif<span className="font-black">AI</span>
+        </h1>
+      </div>
+      <Tooltip target=".avatar" content={user?.sub} position="left" />
+      <Avatar
+        className="avatar"
+        label={user?.sub?.charAt(0).toUpperCase()}
+        size="xlarge"
+        shape="circle"
+        style={{
+          backgroundColor: "#0f28b8",
+          fontWeight: "900",
+          width: "50px",
+          height: "50px",
+        }}
+        color="#fff"
+      />
+    </header>
+  );
+};
