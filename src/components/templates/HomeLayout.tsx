@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { CustomSidebar } from "../../components/CustomSidebar";
-import { Header } from "../../components/Header";
+import { CustomSidebar } from "../organisms/CustomSidebar";
+import { Header } from "../organisms/Header";
 import { Outlet } from "react-router";
 
-export const AppLayout = () => {
+export const HomeLayout = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (

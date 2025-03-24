@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { AuthProvider } from "../context/AuthProvider";
+import { HomeLayout } from "../components/templates/HomeLayout";
+import { AuthProvider } from "../lib/store/AuthProvider";
+import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
-import { AppLayout } from "../pages/private/AppLayout";
-import { HomePage } from "../pages/private/HomePage";
-import { RegisterPage } from "../pages/Register";
+import { RegisterPage } from "../pages/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 
 export default function RoutesPage() {
@@ -16,7 +16,7 @@ export default function RoutesPage() {
             path="/"
             element={
               <PrivateRoute>
-                <AppLayout />
+                <HomeLayout />
               </PrivateRoute>
             }
           >

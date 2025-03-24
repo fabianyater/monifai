@@ -1,7 +1,7 @@
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
-import { useAuthContext } from "../hooks/useAuth";
+import { useAuthContext } from "../../lib/hooks/useAuth";
 
 type HeaderProps = {
   toggleSidebar: () => void;
