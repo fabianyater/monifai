@@ -3,7 +3,11 @@ import { Button } from "primereact/button";
 import { Tooltip } from "primereact/tooltip";
 import { useAuthContext } from "../hooks/useAuth";
 
-export const Header = () => {
+type HeaderProps = {
+  toggleSidebar: () => void;
+};
+
+export const Header = ({ toggleSidebar }: HeaderProps) => {
   const { user } = useAuthContext();
 
   return (
@@ -15,6 +19,7 @@ export const Header = () => {
           size="large"
           rounded
           style={{ backgroundColor: "transparent" }}
+          onClick={toggleSidebar}
         />
         <h1 className="text-3xl font-normal">
           Monif<span className="font-black">AI</span>
