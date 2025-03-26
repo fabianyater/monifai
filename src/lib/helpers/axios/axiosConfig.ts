@@ -1,10 +1,18 @@
 import axios from "axios";
-
-const BASE_URL = "http://localhost:8080/api/v1";
+import { ABI_BASE_URL } from "../../constants";
 
 export const axiosConfig = axios.create({
-  baseURL: BASE_URL,
+  baseURL: ABI_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+axiosConfig.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
