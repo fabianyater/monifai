@@ -1,16 +1,23 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { HomeLayout } from "../components/templates/HomeLayout";
-import { AuthProvider } from "../lib/store/AuthProvider";
+import { ROUTES } from "../lib/constants";
 import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
+import { useEffect } from "react";
+import { useAuthStore } from "../lib/store/useAuthStore";
 
 export default function RoutesPage() {
+  const checkSession = useAuthStore((state) => state.checkSession);
+
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
+  
   return (
     <BrowserRouter>
-      <AuthProvider>
         <Routes>
           <Route
             path="/"
@@ -20,31 +27,15 @@ export default function RoutesPage() {
               </PrivateRoute>
             }
           >
-            <Route index element={<Navigate to="/home" replace />} />
-            <Route
-              path="/home"
-              element={
-                <PrivateRoute>
-                  <HomePage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/categories"
-              element={
-                <PrivateRoute>
-                  <div>Categorías</div>
-                </PrivateRoute>
-              }
-            />
+            <Route index element={<Navigate to={ROUTES.HOME} replace />} />
+            <Route path={ROUTES.HOME} element={<HomePage />} />
+            <Route path={ROUTES.CATEGORIES} element={<div>Categorías</div>} />
           </Route>
 
-          <Route path="/" element={<Navigate to={"/login"} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </AuthProvider>
     </BrowserRouter>
   );
 }
