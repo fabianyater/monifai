@@ -34,6 +34,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       const response = await getUserInfo(userId);
       useUserStore.getState().setUser(response.data);
+      useUserStore.getState().setUserId(userId);
     } catch {
       useAuthStore.getState().logout();
       toast.error("No se pudo obtener la información del usuario");
@@ -66,6 +67,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     try {
       const response = await getUserInfo(userId);
       useUserStore.getState().setUser(response.data);
+      useUserStore.getState().setUserId(userId);
     } catch {
       toast.error("Error al cargar la información del usuario");
       useAuthStore.getState().logout();
