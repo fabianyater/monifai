@@ -4,7 +4,7 @@ import { AuthResponse } from "../../lib/types/AuthType";
 
 const API_URL = "/auth";
 
-export const loginUser = async (data: {
+export const authenticateUser = async (data: {
   email: string;
   password: string;
 }): Promise<ApiResponse<AuthResponse>> => {
