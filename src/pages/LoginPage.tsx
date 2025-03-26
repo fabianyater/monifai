@@ -3,11 +3,14 @@ import { Link, Navigate } from "react-router";
 import { toast } from "sonner";
 import { Input } from "../components/atoms/Input";
 import { MaiButton } from "../components/atoms/MaiButton";
-import { useAuthContext } from "../lib/hooks/useAuth";
-import { loginUser } from "../services/auth/api";
+import { ERROR_MESSAGES } from "../lib/constants";
+import { useAuthStore } from "../lib/store/useAuthStore";
+import { authenticateUser } from "../services/auth/api";
 
 export const LoginPage = () => {
-  const { token, setToken, isLoading } = useAuthContext();
+  const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -64,17 +67,15 @@ export const LoginPage = () => {
       return toast.error("Por favor, completa correctamente el formulario");
     }
 
-    toast.promise(loginUser(formData), {
+    toast.promise(authenticateUser(formData), {
       loading: "Iniciando sesión...",
       success: (res) => {
         setFormData({ email: "", password: "" });
-        localStorage.setItem("token", res.data.accessToken);
-        setToken(res.data.accessToken);
+        login(res.data.accessToken);
         return res.message || "Inicio de sesión exitoso";
       },
       error: (error) => {
-        const message = error.response?.data?.message || "Error inesperado";
-        return message;
+        return error.response?.data?.message || ERROR_MESSAGES.NETWORK;
       },
     });
   };
@@ -83,7 +84,7 @@ export const LoginPage = () => {
     return toast.loading("Validando token...");
   }
 
-  if (token) {
+  if (isLoggedIn) {
     return <Navigate to="/home" replace />;
   }
 
