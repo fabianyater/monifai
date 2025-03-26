@@ -1,0 +1,18 @@
+import { Item } from "../types/Item";
+import { ROUTES } from "./routes";
+
+export const MAIN_MENU_ITEMS: Item[] = [
+  { id: 1, label: "Inicio", icon: "pi pi-fw pi-home", path: ROUTES.HOME },
+  {
+    id: 2,
+    label: "Categorías",
+    icon: "pi pi-fw pi-th-large",
+    path: ROUTES.CATEGORIES,
+  },
+  {
+    id: 3,
+    label: "Bolsillos",
+    icon: "pi pi-fw pi-wallet",
+    path: ROUTES.POCKETS,
+  },
+];
