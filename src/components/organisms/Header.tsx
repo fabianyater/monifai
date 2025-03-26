@@ -1,6 +1,5 @@
 import { Avatar } from "primereact/avatar";
 import { Tooltip } from "primereact/tooltip";
-import { useAuthContext } from "../../lib/hooks/useAuth";
 import { MaiButton } from "../atoms/MaiButton";
 
 type HeaderProps = {
@@ -8,7 +7,6 @@ type HeaderProps = {
 };
 
 export const Header = ({ toggleSidebar }: HeaderProps) => {
-  const { user } = useAuthContext();
 
   return (
     <header className="w-full flex items-center justify-between py-4">
