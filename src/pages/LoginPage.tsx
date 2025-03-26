@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Input } from "../components/atoms/Input";
 import { MaiButton } from "../components/atoms/MaiButton";
-import { ERROR_MESSAGES } from "../lib/constants";
+import { ERROR_MESSAGES, ROUTES } from "../lib/constants";
 import { useAuthStore } from "../lib/store/useAuthStore";
 import { authenticateUser } from "../services/auth/api";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const isLoading = useAuthStore((state) => state.isLoading);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
@@ -69,9 +70,10 @@ export const LoginPage = () => {
 
     toast.promise(authenticateUser(formData), {
       loading: "Iniciando sesión...",
-      success: (res) => {
+      success: async (res) => {
         setFormData({ email: "", password: "" });
-        login(res.data.accessToken);
+        await login(res.data.accessToken);
+        navigate(ROUTES.ROOT);
         return res.message || "Inicio de sesión exitoso";
       },
       error: (error) => {
