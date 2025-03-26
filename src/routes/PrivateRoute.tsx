@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from "react-router";
+import { Spinner } from "../components/atoms/Spinner";
 import { ROUTES } from "../lib/constants";
 import { useAuthStore } from "../lib/store/useAuthStore";
 
@@ -13,7 +14,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const isLoading = useAuthStore((state) => state.isLoading);
 
   if (isLoading) {
-    return <div className="p-4 text-center">Validando sesión...</div>;
+    return (
+      <div className="w-full h-svh flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (!isLoggedIn) {

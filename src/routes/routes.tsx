@@ -6,15 +6,9 @@ import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
-import { useEffect } from "react";
-import { useAuthStore } from "../lib/store/useAuthStore";
 
 export default function RoutesPage() {
-  const checkSession = useAuthStore((state) => state.checkSession);
-
-  useEffect(() => {
-    checkSession();
-  }, [checkSession]);
+ 
   
   return (
     <BrowserRouter>
