@@ -21,7 +21,7 @@ export const MaiMenuItem = ({ isActive, onHide, item }: MaiMenuItemProps) => {
         onHide();
       }}
     >
-      <i className={`pi pi-${item.icon} mr-2`}></i>
+      <i className={`${item.icon} mr-2`}></i>
       <span className="font-medium">{item.label}</span>
       <Ripple />
     </button>
