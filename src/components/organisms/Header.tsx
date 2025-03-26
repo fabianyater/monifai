@@ -1,5 +1,9 @@
 import { Avatar } from "primereact/avatar";
+import { Skeleton } from "primereact/skeleton";
 import { Tooltip } from "primereact/tooltip";
+import { useMemo } from "react";
+import { getContrastColor } from "../../lib/helpers/invertColor";
+import { useUserStore } from "../../lib/store/useUserStore";
 import { MaiButton } from "../atoms/MaiButton";
 
 type HeaderProps = {
@@ -7,6 +11,15 @@ type HeaderProps = {
 };
 
 export const Header = ({ toggleSidebar }: HeaderProps) => {
+  const user = useUserStore((state) => state.user);
+
+  const { backgroundColor, textColor } = useMemo(() => {
+    const bg = user?.color ?? "#0f28b8";
+    const text = getContrastColor(bg);
+    return { backgroundColor: bg, textColor: text };
+  }, [user?.color]);
+
+  const isLoading = !user?.name;
 
   return (
     <header className="w-full flex items-center justify-between py-4">
@@ -23,20 +36,27 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
           Monif<span className="font-black">AI</span>
         </h1>
       </div>
-      <Tooltip target=".avatar" content={user?.sub} position="left" />
-      <Avatar
-        className="avatar"
-        label={user?.sub?.charAt(0).toUpperCase()}
-        size="xlarge"
-        shape="circle"
-        style={{
-          backgroundColor: "#0f28b8",
-          fontWeight: "900",
-          width: "50px",
-          height: "50px",
-        }}
-        color="#fff"
-      />
+
+      {isLoading ? (
+        <Skeleton shape="circle" size="3rem" />
+      ) : (
+        <>
+          <Tooltip target=".avatar" content={user.name} position="left" />
+          <Avatar
+            className="avatar"
+            label={user.name.charAt(0).toUpperCase()}
+            size="xlarge"
+            shape="circle"
+            style={{
+              backgroundColor,
+              fontWeight: "900",
+              width: "50px",
+              height: "50px",
+              color: textColor,
+            }}
+          />
+        </>
+      )}
     </header>
   );
 };
