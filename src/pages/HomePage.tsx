@@ -67,7 +67,7 @@ export const HomePage = () => {
           </div>
         </div>
         <div className="w-full flex flex-col gap-2 items-center justify-start">
-          <div className="flex flex-col items-center justify-center w-full bg-gray-600 rounded-3xl">
+          <div className="flex flex-col items-center justify-center w-full bg-gray-600 rounded-3xl py-4">
             <div className="flex flex-col">
               <MaiSelect<TransactionType>
                 data={transactionTypes}
