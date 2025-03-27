@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "primereact/skeleton";
 import { useEffect, useState } from "react";
 import { FormattedAmount } from "../components/atoms/FormattedAmount";
+import { MaiButton } from "../components/atoms/MaiButton";
 import { MaiSelect } from "../components/atoms/MaiSelect";
 import { formatAmount } from "../lib/helpers/formatAmount";
+import { useVoiceRecognition } from "../lib/hooks/useVoiceRecognition";
 import { useUserStore } from "../lib/store/useUserStore";
 import { Pocket } from "../lib/types/Pocket";
 import { TransactionType, transactionTypes } from "../lib/types/Transactions";
@@ -14,6 +16,9 @@ export const HomePage = () => {
   const [transactionType, setTransactionType] = useState<TransactionType>(
     transactionTypes[1]
   );
+  const [startRecording, setStartRecording] = useState<boolean>(false);
+  const [recognizedText, setRecognizedText] = useState<string>("");
+  const [interimText, setInterimText] = useState<string>("");
 
   const userId = useUserStore((state) => state.userId);
   const user = useUserStore((state) => state.user);
@@ -28,6 +33,13 @@ export const HomePage = () => {
       setSelectedPocket(data[0]);
     }
   }, [data, selectedPocket]);
+
+  useVoiceRecognition({
+    isRecording: startRecording,
+    setIsRecording: setStartRecording,
+    onResult: setRecognizedText,
+    onInterimResult: setInterimText,
+  });
 
   return (
     <div>
@@ -76,6 +88,29 @@ export const HomePage = () => {
             </div>
             <div className="my-8">
               <FormattedAmount amount={120320.9} />
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <MaiButton
+                icon="pi pi-microphone"
+                rounded
+                className={startRecording ? "pulse-animation" : ""}
+                style={{
+                  backgroundColor: startRecording ? "red" : "",
+                  border: "none",
+                }}
+                onClick={() => setStartRecording(!startRecording)}
+              />
+              <p className="italic text-center text-gray-200 min-h-[1.5rem] px-4">
+              {(() => {
+                let displayText = "Click para empezar a hablar";
+                if (startRecording) {
+                  displayText = `Escuchando... "${interimText}"`;
+                } else if (recognizedText) {
+                  displayText = recognizedText;
+                }
+                return displayText;
+              })()}
+            </p>
             </div>
           </div>
         </div>
