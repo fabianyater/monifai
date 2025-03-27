@@ -6,7 +6,6 @@ export const usePockets = (userId: number) => {
     queryKey: [pocketKeys.pockets, userId],
     queryFn: async () => {
       const response = await getPockets(userId);
-      console.log("getPockets response:", response);
       return response;
     },
   };
