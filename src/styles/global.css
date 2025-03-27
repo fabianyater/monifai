@@ -33,3 +33,16 @@ body {
 .p-sidebar .p-sidebar-close-icon {
   color: #fff;
 }
+
+@keyframes pulseShadow {
+  0% {
+    box-shadow: 0 0 20px #ff4d4d;
+  }
+  100% {
+    box-shadow: 0 0 35px #ff4d4d;
+  }
+}
+
+.pulse-animation {
+  animation: pulseShadow .5s ease-in-out infinite alternate;
+}
