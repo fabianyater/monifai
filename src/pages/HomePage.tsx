@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "primereact/skeleton";
 import { useEffect, useState } from "react";
+import { FormattedAmount } from "../components/atoms/FormattedAmount";
 import { MaiSelect } from "../components/atoms/MaiSelect";
+import { formatAmount } from "../lib/helpers/formatAmount";
 import { useUserStore } from "../lib/store/useUserStore";
 import { Pocket } from "../lib/types/Pocket";
 import { TransactionType, transactionTypes } from "../lib/types/Transactions";
@@ -29,17 +31,17 @@ export const HomePage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl">
-        ¡Hola 👋🏻,{" "}
-        {user?.name ? (
-          <span className="font-bold">{user.name.split(" ")[0]}</span>
-        ) : (
-          <Skeleton />
-        )}
-        !
-      </h1>
       <section className="w-full mt-4 flex">
         <div className="w-2/5 flex flex-col gap-2 items-start">
+          <h1 className="text-3xl">
+            ¡Hola 👋🏻,{" "}
+            {user?.name ? (
+              <span className="font-bold">{user.name.split(" ")[0]}</span>
+            ) : (
+              <Skeleton />
+            )}
+            !
+          </h1>
           <div className="flex items-center justify-start">
             <span>Este mes en </span>
             <MaiSelect<Pocket>
@@ -53,7 +55,7 @@ export const HomePage = () => {
           </div>
         </div>
         <div className="w-full flex flex-col gap-2 items-center justify-start">
-          <div className="flex items-center justify-center w-full bg-gray-600 rounded-3xl">
+          <div className="flex flex-col items-center justify-center w-full bg-gray-600 rounded-3xl">
             <div className="flex flex-col">
               <MaiSelect<TransactionType>
                 data={transactionTypes}
@@ -68,9 +70,12 @@ export const HomePage = () => {
                   className="
                     font-black"
                 >
-                  $-50.90
+                  {formatAmount(50.9)}
                 </span>
               </div>
+            </div>
+            <div className="my-8">
+              <FormattedAmount amount={120320.9} />
             </div>
           </div>
         </div>
