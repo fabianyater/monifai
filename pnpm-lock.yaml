@@ -11,6 +11,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.69.0
         version: 5.69.0(react@19.0.0)
+      '@types/dom-speech-recognition':
+        specifier: ^0.0.5
+        version: 0.0.5
       axios:
         specifier: ^1.8.4
         version: 1.8.4
@@ -518,6 +521,9 @@ packages:
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+
+  '@types/dom-speech-recognition@0.0.5':
+    resolution: {integrity: sha512-f+ncKAKtIk5lSQ9Um64+ogV3m1nD/00xYBSKRc4/o7m1QtvA03xiiyX3lArXOoqzqTmqNCYucr5ke9Hx3ExUSA==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -1803,6 +1809,8 @@ snapshots:
       react: 19.0.0
 
   '@types/cookie@0.6.0': {}
+
+  '@types/dom-speech-recognition@0.0.5': {}
 
   '@types/estree@1.0.6': {}
 
