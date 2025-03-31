@@ -1,6 +1,6 @@
 export type Pocket = {
   id: number;
   name: string;
-  balane: number;
+  balance: number;
   emoji: string;
 };
