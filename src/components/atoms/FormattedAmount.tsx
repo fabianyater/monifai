@@ -22,7 +22,7 @@ export const FormattedAmount = ({
   const decimalPart = parts.find((p) => p.type === "fraction")?.value ?? "";
 
   return (
-    <span className="text-6xl font-bold">
+    <span className="text-4xl lg:text-5xl font-bold">
       {currency}
       {intPart}
       <sup className="align-bottom font-normal ml-0.5">,{decimalPart}</sup>

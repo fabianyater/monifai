@@ -7,7 +7,7 @@ export const HomeLayout = () => {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
-    <div className="container mx-auto max-w-screen-lg">
+    <div className="container mx-auto max-w-screen-lg bg-[#1A1A1A]">
       <Header toggleSidebar={() => setVisible(true)} />
       <CustomSidebar visible={visible} onHide={() => setVisible(false)} />
       <main className="p-4">

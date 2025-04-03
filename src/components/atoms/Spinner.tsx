@@ -1,4 +1,4 @@
-import logo from "../../../public/monifai.svg";
+import logo from "../../monifai.svg";
 
 export const Spinner = () => {
   return (

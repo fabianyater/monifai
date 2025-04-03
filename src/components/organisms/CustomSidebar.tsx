@@ -11,7 +11,7 @@ export const CustomSidebar = ({ visible, onHide }: CustomSidebarProps) => {
     <Sidebar
       visible={visible}
       onHide={() => onHide()}
-      style={{ backgroundColor: "#242424" }}
+      style={{ backgroundColor: "#2D2D2D" }}
       color="#fff"
     >
       <MaiMenu onHide={onHide} />

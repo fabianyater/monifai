@@ -28,9 +28,9 @@ const ValueTemplate = <T,>({
     option &&
     typeof option === "object" &&
     "value" in option &&
-    (option["value"] === "expenses" || option["value"] === "incomes");
+    (option["value"] === "EXPENSE" || option["value"] === "INCOME");
 
-  const labelClass = isTransactionType ? "text-xl font-semibold" : "";
+  const labelClass = isTransactionType ? "text-md lg:text-xl font-semibold" : "";
 
   return (
     <div className="flex items-center gap-2 text-gray">

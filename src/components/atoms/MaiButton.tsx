@@ -11,6 +11,8 @@ type MaiButtonProps = Pick<
   | "style"
   | "severity"
   | "className"
+  | "loading"
+  | "disabled"
 > & {};
 
 export const MaiButton = ({
@@ -22,7 +24,9 @@ export const MaiButton = ({
   rounded,
   style,
   severity,
-  className
+  className,
+  loading,
+  disabled,
 }: MaiButtonProps) => {
   return (
     <Button
@@ -35,6 +39,8 @@ export const MaiButton = ({
       severity={severity}
       onClick={onClick}
       className={className}
+      loading={loading}
+      disabled={disabled}
     />
   );
 };

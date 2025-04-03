@@ -6,6 +6,7 @@ import { MaiButton } from "../components/atoms/MaiButton";
 import { registerUser } from "../services/users/api";
 
 export const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -69,13 +70,16 @@ export const RegisterPage = () => {
     const isValid = Object.values(errors).every((error) => error === "");
 
     if (isValid) {
+      setIsLoading(true);
       toast.promise(registerUser(formData), {
         loading: "Registrando usuario...",
         success: (res) => {
+          setIsLoading(false);
           setFormData({ name: "", email: "", password: "" });
           return res.message || "Registro exitoso";
         },
         error: (error) => {
+          setIsLoading(false);
           const message = error.response?.data?.message || "Error inesperado";
           return message;
         },
@@ -119,7 +123,7 @@ export const RegisterPage = () => {
             onChange={handleChange}
             error={errors.password}
           />
-          <MaiButton type="submit" label="Registrarse" />
+          <MaiButton type="submit" label="Registrarse" loading={isLoading} />
         </form>
         <p className="text-sm">
           ¿Ya tienes una cuenta?{" "}
