@@ -9,3 +9,11 @@ export const getPockets = async (userId: number): Promise<Pocket[]> => {
 
   return response.data.data;
 };
+
+export const getPocketBalance = async (pocketId: number): Promise<number> => {
+  const response = await axiosConfig.get<ApiResponse<number>>(
+    `/pockets/${pocketId}/balance`
+  );
+
+  return response.data.data;
+};
