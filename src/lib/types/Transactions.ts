@@ -1,4 +1,4 @@
-export type TransactionType = 'INCOME' | 'EXPENSE';
+export type TransactionType = "INCOME" | "EXPENSE";
 
 export type TransactionTypeOption = {
   label: string;
@@ -11,12 +11,19 @@ export interface Transaction {
   description: string;
   amount: number;
   date: Date;
-  periodicity: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+  periodicity: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
   transactionType: TransactionType;
   categoryId: number;
   pocketId: number;
 }
 
+export type ClassifyTransactionResponse = {
+  fecha: string;
+  periodicidad: string;
+  categoria: string;
+  valor: number;
+  tipo: string;
+};
 
 export const transactionTypes: TransactionTypeOption[] = [
   {
