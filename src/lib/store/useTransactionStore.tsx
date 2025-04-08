@@ -8,6 +8,8 @@ type TransactionStore = {
   setTransactionType: (transactionType: TransactionType) => void;
   isLoading: boolean;
   monthlyTotal: number;
+  transactionInput: string;
+  setTransactionInput: (transactionInput: string) => void;
 };
 
 export const useTransactionStore = create<TransactionStore>((set) => ({
@@ -18,4 +20,6 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
     set({ transactionType }),
   isLoading: true,
   monthlyTotal: 0,
+  transactionInput: "",
+  setTransactionInput: (transactionInput: string) => set({ transactionInput }),
 }));
