@@ -34,6 +34,10 @@ export const HomePage = () => {
     }
   }, [data, selectedPocket, setSelectedPocket]);
 
+  const openModal = () => {
+    setClassifiedTransaction(); // ← activa el modal con valores por defecto
+  };
+
   return (
     <div className="">
       <section className="w-full flex flex-col  gap-4 md:flex-row">
@@ -55,13 +59,14 @@ export const HomePage = () => {
             label="Añadir transaccción"
             className="w-full bg-transparent border-dashed border-2 border-gray-500 hover:bg-primary rounded-2xl"
             type="button"
+            onClick={openModal}
           />
         </div>
         <div className="w-full flex flex-col gap-2 items-center justify-start">
           <TransactionCard />
         </div>
       </section>
-      {classifiedTransaction && (
+      {classifiedTransaction !== null && (
         <CreateTransactionModal
           transaction={classifiedTransaction}
           onClose={() => setClassifiedTransaction(null)}
