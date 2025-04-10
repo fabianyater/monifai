@@ -3,3 +3,7 @@ export type Category = {
   name: string;
   emojis: string[];
 };
+
+export type CategoryRequest = Omit<Category, "emojis" | "id"> & {
+  id?: number;
+};
