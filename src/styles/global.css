@@ -46,3 +46,15 @@ body {
 .pulse-animation {
   animation: pulseShadow 0.5s ease-in-out infinite alternate;
 }
+
+/* Esto quita las flechas en navegadores WebKit como Chrome y Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Esto es para Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
