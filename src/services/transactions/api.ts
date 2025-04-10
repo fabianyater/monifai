@@ -1,17 +1,21 @@
 import { axiosConfig } from "../../lib/helpers/axios/axiosConfig";
 import { ApiResponse } from "../../lib/types/ApiResponse";
-import { ClassifyTransactionResponse } from "../../lib/types/Transactions";
+import {
+  ClassifiedTransaction,
+  TransactionRequest,
+} from "../../lib/types/Transactions";
 
 export const classifyTransaction = async (
   prompt: string
-): Promise<ClassifyTransactionResponse> => {
-  const response = await axiosConfig.get<
-    ApiResponse<ClassifyTransactionResponse>
-  >(`/classify/`, {
-    params: {
-      prompt,
-    },
-  });
+): Promise<ClassifiedTransaction> => {
+  const response = await axiosConfig.get<ApiResponse<ClassifiedTransaction>>(
+    `/classify`,
+    {
+      params: {
+        prompt,
+      },
+    }
+  );
 
   return response.data.data;
 };
@@ -37,6 +41,17 @@ export const getMonthlyExpenses = async (pocketId: number): Promise<number> => {
         pocketId,
       },
     }
+  );
+
+  return response.data.data;
+};
+
+export const createTransaction = async (
+  transaction: TransactionRequest
+): Promise<void> => {
+  const response = await axiosConfig.post<ApiResponse<void>>(
+    `/transactions/`,
+    transaction
   );
 
   return response.data.data;
