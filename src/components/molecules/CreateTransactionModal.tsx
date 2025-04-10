@@ -1,139 +1,134 @@
 import { Dialog } from "primereact/dialog";
 import { useState } from "react";
+import { PERIODICITY_OPTIONS } from "../../lib/constants/selectOptions";
 import { usePocketStore } from "../../lib/store/usePocketStore";
 import {
   ClassifiedTransaction,
   TransactionRequest,
 } from "../../lib/types/Transactions";
 import { useCreateTransactionMutation } from "../../services/transactions/mutations";
-import { Input } from "../atoms/Input";
-import { MaiButton } from "../atoms/MaiButton";
+import { DatePicker } from "../atoms/DatePicker";
 
 type CreateTransactionModalProps = {
-  transaction: ClassifiedTransaction;
+  transaction?: ClassifiedTransaction;
   onClose: () => void;
 };
 
 export const CreateTransactionModal = ({
-  onClose,
   transaction,
+  onClose,
 }: CreateTransactionModalProps) => {
+  const defaultTransaction: ClassifiedTransaction = {
+    description: "",
+    value: 0,
+    date: new Date(),
+    periodicity: "ONCE",
+    type: "EXPENSE",
+    category: "",
+  };
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  const tx = transaction ?? defaultTransaction;
   const pocketId = usePocketStore((state) => state.selectedPocket?.id);
+
   const [formData, setFormData] = useState<TransactionRequest>({
-    date: transaction.date,
-    periodicity: transaction.periodicity,
-    description: transaction.description,
-    amount: transaction.value,
-    transactionType: transaction.type,
-    category: {
-      name: transaction.category,
-    },
+    date: tx.date ? new Date(tx.date) : new Date(todayStr),
+    periodicity: tx.periodicity,
+    description: tx.description,
+    amount: tx.value,
+    transactionType: tx.type,
+    category: { name: tx.category },
     pocketId: pocketId ?? 0,
   });
+
   const { mutate } = useCreateTransactionMutation();
+  const isExpense = formData.transactionType === "EXPENSE";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "amount") {
+      setFormData((prev) => ({ ...prev, amount: Number(value) }));
+    } else if (name === "category") {
+      setFormData((prev) => ({
+        ...prev,
+        category: { name: value },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    mutate(
-      {
-        ...formData,
-      },
-      {
-        onSuccess: () => {
-          onClose();
-        },
-        onError: (error) => {
-          console.error("Error al crear transacción:", error);
-        },
-      }
-    );
+    mutate(formData, {
+      onSuccess: () => onClose(),
+      onError: (error) => console.error("Error al crear transacción:", error),
+    });
   };
 
   return (
     <Dialog
-      header="Crear transacción"
       visible={true}
-      closable={true}
       onHide={onClose}
-    >
-      <div className="p-4">
+      closable={false}
+      className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
+      content={({ hide }) => (
         <form
-          className="flex flex-col gap-4 w-full max-w-md"
           onSubmit={handleSubmit}
+          className="flex flex-col gap-4 p-4"
+          style={{
+            fontFamily: "'Ubuntu', sans-serif",
+          }}
         >
-          <Input
-            label="Fecha"
-            type="date"
-            placeholder="dd/mm/aaaa"
-            required
-            name="date"
-            value={new Date(transaction.date).toISOString().split("T")[0]}
-            onChange={handleChange}
-            error=""
-          />
-          <Input
-            label="Período"
-            type="text"
-            placeholder="Período"
-            required
-            name="periodicity"
-            value={transaction.periodicity}
-            onChange={handleChange}
-            error=""
-          />
-          <Input
-            label="Descripción"
+          <div className="w-full flex items-center justify-start gap-4">
+            <DatePicker
+              value={formData.date.toISOString().split("T")[0]}
+              onChange={(newDate) =>
+                setFormData((prev) => ({ ...prev, date: new Date(newDate) }))
+              }
+            />
+            <select
+              name="periodicity"
+              className="w-max bg-[#1a1a1a] text-white py-2 rounded"
+              onChange={(e) =>
+                handleSelectChange("periodicity", e.target.value)
+              }
+            >
+              {PERIODICITY_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <input
             type="text"
             placeholder="Descripción"
-            required
             name="description"
-            value={transaction.description}
+            value={formData.description}
             onChange={handleChange}
-            error=""
+            className="bg-transparent text-white py-2 rounded text-4xl font-semibold outline-none"
           />
-          <Input
-            label="Importe"
+          <input
             type="number"
-            placeholder="Importe"
-            required
+            placeholder="Valor"
             name="amount"
-            value={transaction.value.toString()}
+            value={formData.amount === 0 ? "" : formData.amount}
             onChange={handleChange}
-            error=""
-          />
-          <Input
-            label="Tipo de transacción"
-            type="text"
-            placeholder="Tipo de transacción"
+            className={`bg-transparent ${
+              formData.transactionType === "EXPENSE"
+                ? "text-red-500"
+                : "text-green-500"
+            } py-2 rounded text-4xl font-semibold outline-none`}
             required
-            name="type"
-            value={transaction.type}
-            onChange={handleChange}
-            error=""
+            content="number"
           />
-          <Input
-            label="Categoria"
-            type="text"
-            placeholder="Categoria"
-            required
-            name="category"
-            value={transaction.category}
-            onChange={handleChange}
-            error=""
-          />
-          <MaiButton type="submit" label="Crear transacción" />
-          <MaiButton type="button" label="Cancelar" onClick={onClose} />
         </form>
-      </div>
-    </Dialog>
+      )}
+    ></Dialog>
   );
 };
