@@ -8,7 +8,6 @@ export const useCreateCategory = () => {
     mutationKey: [...categoriesKeys.categories, "create"],
     mutationFn: createCategory,
     onSuccess: () => {
-      console.log("✅ Categoría creada");
       queryClient.invalidateQueries({
         queryKey: categoriesKeys.categories,
         refetchType: "active",
