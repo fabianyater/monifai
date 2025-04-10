@@ -7,7 +7,14 @@ export type TransactionTypeOption = {
   value: TransactionType;
 };
 
-export type Periodicity = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+export type Periodicity =
+  | "ONCE"
+  | "DAILY"
+  | "WEEKLY"
+  | "BIWEEKLY"
+  | "MONTHLY"
+  | "QUARTERLY"
+  | "YEARLY";
 
 export interface Transaction {
   id: number;
