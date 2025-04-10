@@ -8,6 +8,7 @@ type MaiSelectProps<T> = {
   optionLabel?: string;
   optionValue?: keyof T;
   placeholder?: string;
+  classname?: string;
 };
 
 const ValueTemplate = <T,>({
@@ -50,10 +51,11 @@ export const MaiSelect = <T,>({
   optionLabel = "name",
   optionValue = "value" as keyof T,
   placeholder,
+  classname
 }: MaiSelectProps<T>) => {
   return (
     <Dropdown
-      className="bg-transparent outline-none border-none focus:ring-0 shadow-none"
+      className={`bg-transparent outline-none border-none focus:ring-0 shadow-none ${classname}`}
       options={data}
       optionLabel={optionLabel}
       optionValue={optionValue as string}
