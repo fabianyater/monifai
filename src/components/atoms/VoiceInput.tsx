@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { useVoiceRecognition } from "../../lib/hooks/useVoiceRecognition";
 import { useTransactionStore } from "../../lib/store/useTransactionStore";
+import { ClassifiedTransaction } from "../../lib/types/Transactions";
+import { useClassifyTransaction } from "../../services/transactions/mutations";
 import { MaiButton } from "./MaiButton";
 
 export const VoiceInput = () => {
@@ -10,6 +13,24 @@ export const VoiceInput = () => {
   const setTransactionInput = useTransactionStore(
     (state) => state.setTransactionInput
   );
+  const setClassifiedTransactions = useTransactionStore(
+    (state) => state.setClassifiedTransaction
+  );
+  const { mutateAsync } = useClassifyTransaction();
+
+  const handleClassifyTransaction = (input: string) => {
+    toast.promise<ClassifiedTransaction>(mutateAsync(input), {
+      loading: "Clasificando...",
+      success: (data) => {
+        setClassifiedTransactions(data);
+        return "Clasificación exitosa";
+      },
+      error: (error) => {
+        console.error("Error al clasificar la transacción:", error);
+        return error.message || "Error inesperado";
+      },
+    });
+  };
 
   useVoiceRecognition({
     isRecording: startRecording,
@@ -19,13 +40,18 @@ export const VoiceInput = () => {
   });
 
   const handleAccept = () => {
-    if (!recognizedText.trim()) return;
-    setTransactionInput(recognizedText.trim());
+    const trimmedText = recognizedText.trim();
+    if (!trimmedText) return;
+
+    setTransactionInput(trimmedText);
     setRecognizedText("");
+    handleClassifyTransaction(trimmedText);
   };
 
   const handleCancel = () => {
     setRecognizedText("");
+    setTransactionInput("");
+    setStartRecording(false);
   };
 
   return (
