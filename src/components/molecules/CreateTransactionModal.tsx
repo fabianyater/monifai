@@ -95,7 +95,7 @@ export const CreateTransactionModal = ({
         }}
         dismissableMask={true}
         modal={true}
-        className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
+        className="w-3/4 sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
         content={() => (
           <form
             onSubmit={handleSubmit}
@@ -135,7 +135,7 @@ export const CreateTransactionModal = ({
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="bg-transparent text-white py-2 rounded text-4xl font-semibold outline-none"
+              className="bg-transparent text-white py-2 rounded text-2xl md:text-4xl font-semibold outline-none"
             />
             <input
               type="number"
@@ -147,7 +147,7 @@ export const CreateTransactionModal = ({
                 formData.transactionType === "EXPENSE"
                   ? "text-red-500"
                   : "text-green-500"
-              } py-2 rounded text-4xl font-semibold outline-none`}
+              } py-2 rounded text-2xl md:text-4xl font-semibold outline-none`}
               required
               content="number"
             />
