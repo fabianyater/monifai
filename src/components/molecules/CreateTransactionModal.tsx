@@ -84,7 +84,7 @@ export const CreateTransactionModal = ({
       dismissableMask={true}
       modal={true}
       className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
-      content={({ hide }) => (
+      content={() => (
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-4 p-4"
