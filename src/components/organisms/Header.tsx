@@ -22,7 +22,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
   const isLoading = !user?.name;
 
   return (
-    <header className="w-full flex items-center justify-between py-4">
+    <header className="w-full flex items-center justify-between py-4 pr-4 lg:px-0">
       <div className="flex items-center justify-center gap-2">
         <MaiButton
           className="border-none focus:shadow-none"
