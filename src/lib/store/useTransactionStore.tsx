@@ -18,6 +18,8 @@ type TransactionStore = {
   setClassifiedTransaction: (
     classifiedTransactions: ClassifiedTransaction | null
   ) => void;
+  isTransactionModalOpen: boolean;
+  setIsTransactionModalOpen: (isTransactionModalOpen: boolean) => void;
 };
 
 export const useTransactionStore = create<TransactionStore>((set) => ({
@@ -34,4 +36,7 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
   setClassifiedTransaction: (
     classifiedTransaction: ClassifiedTransaction | null
   ) => set({ classifiedTransaction }),
+  isTransactionModalOpen: false,
+  setIsTransactionModalOpen: (isTransactionModalOpen: boolean) =>
+    set({ isTransactionModalOpen }),
 }));
