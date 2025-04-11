@@ -12,6 +12,7 @@ import { DatePicker } from "../atoms/DatePicker";
 import { MaiButton } from "../atoms/MaiButton";
 import TransactionToggle from "../atoms/TranscationToggle";
 import { CategoryPillsWrapper } from "./CategoryPillsWrapper";
+import { CreateCategoryModal } from "./CreateCategoryModal";
 
 type CreateTransactionModalProps = {
   transaction?: ClassifiedTransaction;
@@ -22,6 +23,7 @@ export const CreateTransactionModal = ({
   transaction,
   onClose,
 }: CreateTransactionModalProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const defaultTransaction: ClassifiedTransaction = {
     description: "",
     value: 0,
@@ -78,99 +80,108 @@ export const CreateTransactionModal = ({
   }
 
   return (
-    <Dialog
-      visible={true}
-      onHide={onClose}
-      dismissableMask={true}
-      modal={true}
-      className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
-      content={() => (
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 p-4"
-          style={{
-            fontFamily: "'Ubuntu', sans-serif",
-          }}
-        >
-          <div className="w-full flex items-center justify-start gap-4">
-            <DatePicker
-              value={formData.date.toISOString().split("T")[0]}
-              onChange={(newDate) =>
-                setFormData((prev) => ({ ...prev, date: new Date(newDate) }))
-              }
+    <>
+      <Dialog
+        visible={true}
+        onHide={onClose}
+        dismissableMask={true}
+        modal={true}
+        className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
+        content={() => (
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 p-4"
+            style={{
+              fontFamily: "'Ubuntu', sans-serif",
+            }}
+          >
+            <div className="w-full flex items-center justify-start gap-4">
+              <DatePicker
+                value={formData.date.toISOString().split("T")[0]}
+                onChange={(newDate) =>
+                  setFormData((prev) => ({ ...prev, date: new Date(newDate) }))
+                }
+              />
+              <select
+                name="periodicity"
+                className="w-max bg-transparent text-white py-2 rounded"
+                onChange={(e) =>
+                  handleSelectChange("periodicity", e.target.value)
+                }
+              >
+                {PERIODICITY_OPTIONS.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    className="bg-black text-white"
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <input
+              type="text"
+              placeholder="Descripción"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="bg-transparent text-white py-2 rounded text-4xl font-semibold outline-none"
             />
-            <select
-              name="periodicity"
-              className="w-max bg-transparent text-white py-2 rounded"
-              onChange={(e) =>
-                handleSelectChange("periodicity", e.target.value)
-              }
-            >
-              {PERIODICITY_OPTIONS.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  className="bg-black text-white"
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <input
-            type="text"
-            placeholder="Descripción"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="bg-transparent text-white py-2 rounded text-4xl font-semibold outline-none"
-          />
-          <input
-            type="number"
-            placeholder="Valor"
-            name="amount"
-            value={formData.amount === 0 ? "" : formData.amount}
-            onChange={handleChange}
-            className={`bg-transparent ${
-              formData.transactionType === "EXPENSE"
-                ? "text-red-500"
-                : "text-green-500"
-            } py-2 rounded text-4xl font-semibold outline-none`}
-            required
-            content="number"
-          />
-          <div className="flex items-center justify-start gap-2">
-            <MaiButton
-              icon="pi pi-plus"
-              type="button"
-              size="small"
-              rounded
-              className="h-10  w-10 bg-transparent text-whit transition-colors duration-200 border-gray-600"
+            <input
+              type="number"
+              placeholder="Valor"
+              name="amount"
+              value={formData.amount === 0 ? "" : formData.amount}
+              onChange={handleChange}
+              className={`bg-transparent ${
+                formData.transactionType === "EXPENSE"
+                  ? "text-red-500"
+                  : "text-green-500"
+              } py-2 rounded text-4xl font-semibold outline-none`}
+              required
+              content="number"
             />
-            <CategoryPillsWrapper
-              selectedCategory={formData.category.name}
-              setSelectedCategory={(category: string) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  category: { name: category },
-                }))
-              }
-            />
-          </div>
+            <div className="flex items-center justify-start gap-2">
+              <MaiButton
+                icon="pi pi-plus"
+                type="button"
+                size="small"
+                rounded
+                className="h-10  w-10 bg-transparent text-whit transition-colors duration-200 border-gray-600"
+                onClick={() => setIsDialogOpen(true)}
+              />
+              <CategoryPillsWrapper
+                selectedCategory={formData.category.name}
+                setSelectedCategory={(category: string) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    category: { name: category },
+                  }))
+                }
+              />
+            </div>
 
-          <div className="flex items-center justify-between mt-10 gap-4">
-            <TransactionToggle
-              value={formData.transactionType}
-              onChange={setTransactionType}
-            />
-            <MaiButton
-              icon="pi pi-check"
-              className="rounded-xl w-full"
-              type="submit"
-            />
-          </div>
-        </form>
+            <div className="flex items-center justify-between mt-10 gap-4">
+              <TransactionToggle
+                value={formData.transactionType}
+                onChange={setTransactionType}
+              />
+              <MaiButton
+                icon="pi pi-check"
+                className="rounded-xl w-full"
+                type="submit"
+              />
+            </div>
+          </form>
+        )}
+      ></Dialog>
+      {isDialogOpen && (
+        <CreateCategoryModal
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+        />
       )}
-    ></Dialog>
+    </>
   );
 };
