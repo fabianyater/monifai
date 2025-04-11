@@ -54,8 +54,8 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
         readOnly
         value={displayValue}
         placeholder="Selecciona una fecha"
-        className="bg-[#1a1a1a] text-white pr-10 pl-1 py-2 rounded cursor-pointer min-w-0"
-        
+        className="bg-transparent text-white pr-10 pl-1 py-2 rounded cursor-pointer min-w-0"
+        style={{ width: `${displayValue.length + 6}ch` }}
       />
       <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
         <svg
