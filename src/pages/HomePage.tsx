@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Greet } from "../components/atoms/Greet";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { MaiSelect } from "../components/atoms/MaiSelect";
@@ -12,6 +12,9 @@ import { Pocket } from "../lib/types/Pocket";
 import { usePockets } from "../services/pockets/queries";
 
 export const HomePage = () => {
+  const [isTransactionModalOpen, setisTransactionModalOpen] =
+    useState<boolean>(false);
+
   const userId = useUserStore((state) => state.userId);
   const user = useUserStore((state) => state.user);
   const selectedPocket = usePocketStore((state) => state.selectedPocket);
@@ -35,7 +38,7 @@ export const HomePage = () => {
   }, [data, selectedPocket, setSelectedPocket]);
 
   const openModal = () => {
-    setClassifiedTransaction(); // ← activa el modal con valores por defecto
+    setisTransactionModalOpen(true);
   };
 
   return (
@@ -66,10 +69,13 @@ export const HomePage = () => {
           <TransactionCard />
         </div>
       </section>
-      {classifiedTransaction !== null && (
+      {isTransactionModalOpen && (
         <CreateTransactionModal
-          transaction={classifiedTransaction}
-          onClose={() => setClassifiedTransaction(null)}
+          transaction={classifiedTransaction || undefined}
+          onClose={() => {
+            setisTransactionModalOpen(false);
+            setClassifiedTransaction(null);
+          }}
         />
       )}
     </div>
