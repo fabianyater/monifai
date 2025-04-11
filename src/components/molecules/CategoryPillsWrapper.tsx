@@ -14,8 +14,6 @@ export const CategoryPillsWrapper = ({
 }: CategoryPillsWrapperProps) => {
   const { queryFn, queryKey } = useCategories();
   const { data: categories, isLoading } = useQuery({ queryKey, queryFn });
-  console.log("Selected category", selectedCategory);
-
   if (!categories) return null;
 
   const handleClick = (categoryName: string) => {
