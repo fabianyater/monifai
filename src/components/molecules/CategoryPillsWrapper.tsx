@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCategories } from "../../services/categories/queries";
 import { CategoryPill } from "../atoms/CategoryPill";
 
@@ -13,7 +13,8 @@ export const CategoryPillsWrapper = ({
   setSelectedCategory,
 }: CategoryPillsWrapperProps) => {
   const { queryFn, queryKey } = useCategories();
-  const { data: categories } = useQuery({ queryKey, queryFn });
+  const { data: categories, isLoading } = useQuery({ queryKey, queryFn });
+  console.log("Selected category", selectedCategory);
 
   if (!categories) return null;
 
@@ -25,7 +26,7 @@ export const CategoryPillsWrapper = ({
     ? categories.filter((category) => category.name === selectedCategory)
     : categories;
 
-  return (
+  return !isLoading ? (
     <motion.div
       layout
       className="flex flex-row overflow-x-auto gap-2 no-scrollbar py-1"
@@ -50,5 +51,7 @@ export const CategoryPillsWrapper = ({
         ))}
       </AnimatePresence>
     </motion.div>
+  ) : (
+    <div>Loading...</div>
   );
 };
