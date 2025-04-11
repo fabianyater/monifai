@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Greet } from "../components/atoms/Greet";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { MaiSelect } from "../components/atoms/MaiSelect";
@@ -12,19 +12,16 @@ import { Pocket } from "../lib/types/Pocket";
 import { usePockets } from "../services/pockets/queries";
 
 export const HomePage = () => {
-  const [isTransactionModalOpen, setisTransactionModalOpen] =
-    useState<boolean>(false);
-
+  const isTransactionModalOpen = useTransactionStore(
+    (state) => state.isTransactionModalOpen
+  );
+  const setisTransactionModalOpen = useTransactionStore(
+    (state) => state.setIsTransactionModalOpen
+  );
   const userId = useUserStore((state) => state.userId);
   const user = useUserStore((state) => state.user);
   const selectedPocket = usePocketStore((state) => state.selectedPocket);
   const setSelectedPocket = usePocketStore((state) => state.setSelectedPocket);
-  const classifiedTransaction = useTransactionStore(
-    (state) => state.classifiedTransaction
-  );
-  const setClassifiedTransaction = useTransactionStore(
-    (state) => state.setClassifiedTransaction
-  );
   const { queryKey, queryFn } = usePockets(Number(userId));
   const { data, isLoading } = useQuery({
     queryKey,
@@ -71,10 +68,8 @@ export const HomePage = () => {
       </section>
       {isTransactionModalOpen && (
         <CreateTransactionModal
-          transaction={classifiedTransaction || undefined}
           onClose={() => {
             setisTransactionModalOpen(false);
-            setClassifiedTransaction(null);
           }}
         />
       )}
