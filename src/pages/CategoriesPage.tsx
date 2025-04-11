@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { Dialog } from "primereact/dialog";
 import { Ripple } from "primereact/ripple";
-import { useCallback, useState } from "react";
-import { Input } from "../components/atoms/Input";
+import { useState } from "react";
 import { MaiButton } from "../components/atoms/MaiButton";
-import { useCreateCategory } from "../services/categories/mutations";
+import { CreateCategoryModal } from "../components/molecules/CreateCategoryModal";
 import { useCategories } from "../services/categories/queries";
 
 const emojiVariants = {
@@ -28,27 +26,9 @@ export const CategoriesPage = () => {
   const [swipeDirection, setSwipeDirection] = useState<"left" | "right">(
     "left"
   );
-  const [name, setName] = useState("");
 
   const { queryKey, queryFn } = useCategories();
   const { data } = useQuery({ queryKey, queryFn });
-  const { mutate, isPending } = useCreateCategory();
-
-  const handleCreate = useCallback(() => {
-    if (!name.trim()) return;
-    mutate(
-      { name: name.trim() },
-      {
-        onSuccess: () => {
-          setIsDialogOpen(false);
-          setName("");
-        },
-        onError: (error) => {
-          console.error("Error al crear categoría:", error);
-        },
-      }
-    );
-  }, [name, mutate]);
 
   return (
     <div>
@@ -153,35 +133,12 @@ export const CategoriesPage = () => {
         </div>
       )}
 
-      <Dialog
-        header={<span className="text-xl font-medium">Nueva Categoría</span>}
-        visible={isDialogOpen}
-        onHide={() => setIsDialogOpen(false)}
-        dismissableMask
-        closable
-        style={{ width: "400px", borderRadius: "12px" }}
-        className="p-dialog-custom"
-      >
-        <div className="flex flex-col gap-4">
-          <Input
-            label="Nombre de la categoría"
-            type="text"
-            placeholder="Transporte"
-            required
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            error={name ? "" : "Este campo es requerido"}
-          />
-          <MaiButton
-            label="Crear"
-            onClick={handleCreate}
-            loading={isPending}
-            disabled={!name.trim()}
-            className="w-full"
-          />
-        </div>
-      </Dialog>
+      {isDialogOpen && (
+        <CreateCategoryModal
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+        />
+      )}
     </div>
   );
 };
