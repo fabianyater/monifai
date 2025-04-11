@@ -53,7 +53,7 @@ export const CreateTransactionModal = ({
     pocketId: pocketId ?? 0,
   });
 
-  const { mutate } = useCreateTransactionMutation();
+  const { mutate, isPending } = useCreateTransactionMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -180,6 +180,7 @@ export const CreateTransactionModal = ({
                 icon="pi pi-check"
                 className="rounded-xl w-full"
                 type="submit"
+                loading={isPending}
               />
             </div>
           </form>
