@@ -17,7 +17,7 @@ export const CategoryPill = ({
     <div
       onClick={onClick}
       className={`flex items-center justify-center py-1 px-2 border rounded-full cursor-pointer gap-2 transition-all
-        hover:bg-gray-700 hover:text-white
+        hover:bg-gray-700 hover:text-white whitespace-nowrap flex-nowrap
         ${
           selected
             ? "border-white text-white bg-gray-700"
@@ -26,7 +26,7 @@ export const CategoryPill = ({
         `}
     >
       <span className="text-xl">{category.emojis[0]}</span>
-      <span className="text-sm font-medium">{category.name}</span>
+      <span className="text-sm font-medium mr-1">{category.name}</span>
       {hasSelection && selected && (
         <span className="text-xs text-gray-400">
           <i className="pi pi-chevron-right"></i>
