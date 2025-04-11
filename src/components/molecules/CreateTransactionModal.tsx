@@ -2,6 +2,7 @@ import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import { PERIODICITY_OPTIONS } from "../../lib/constants/selectOptions";
 import { usePocketStore } from "../../lib/store/usePocketStore";
+import { useTransactionStore } from "../../lib/store/useTransactionStore";
 import {
   ClassifiedTransaction,
   TransactionRequest,
@@ -15,14 +16,18 @@ import { CategoryPillsWrapper } from "./CategoryPillsWrapper";
 import { CreateCategoryModal } from "./CreateCategoryModal";
 
 type CreateTransactionModalProps = {
-  transaction?: ClassifiedTransaction;
   onClose: () => void;
 };
 
 export const CreateTransactionModal = ({
-  transaction,
   onClose,
 }: CreateTransactionModalProps) => {
+  const transaction = useTransactionStore(
+    (state) => state.classifiedTransaction
+  );
+  const setTransaction = useTransactionStore(
+    (state) => state.setClassifiedTransaction
+  );
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const defaultTransaction: ClassifiedTransaction = {
     description: "",
@@ -43,7 +48,8 @@ export const CreateTransactionModal = ({
     description: tx.description,
     amount: tx.value,
     transactionType: tx.type,
-    category: { name: tx.category },
+    category:
+      typeof tx.category === "string" ? { name: tx.category } : tx.category,
     pocketId: pocketId ?? 0,
   });
 
@@ -83,7 +89,10 @@ export const CreateTransactionModal = ({
     <>
       <Dialog
         visible={true}
-        onHide={onClose}
+        onHide={() => {
+          setTransaction(null);
+          onClose();
+        }}
         dismissableMask={true}
         modal={true}
         className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
