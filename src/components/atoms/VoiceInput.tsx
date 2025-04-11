@@ -16,6 +16,9 @@ export const VoiceInput = () => {
   const setClassifiedTransactions = useTransactionStore(
     (state) => state.setClassifiedTransaction
   );
+  const setIsTransactionModalOpen = useTransactionStore(
+    (state) => state.setIsTransactionModalOpen
+  );
   const { mutateAsync } = useClassifyTransaction();
 
   const handleClassifyTransaction = (input: string) => {
@@ -23,6 +26,7 @@ export const VoiceInput = () => {
       loading: "Clasificando...",
       success: (data) => {
         setClassifiedTransactions(data);
+        setIsTransactionModalOpen(true);
         return "Clasificación exitosa";
       },
       error: (error) => {
