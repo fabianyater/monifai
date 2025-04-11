@@ -11,6 +11,7 @@ import { useCreateTransactionMutation } from "../../services/transactions/mutati
 import { DatePicker } from "../atoms/DatePicker";
 import { MaiButton } from "../atoms/MaiButton";
 import TransactionToggle from "../atoms/TranscationToggle";
+import { CategoryPillsWrapper } from "./CategoryPillsWrapper";
 
 type CreateTransactionModalProps = {
   transaction?: ClassifiedTransaction;
@@ -45,7 +46,6 @@ export const CreateTransactionModal = ({
   });
 
   const { mutate } = useCreateTransactionMutation();
-  const isExpense = formData.transactionType === "EXPENSE";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -139,13 +139,35 @@ export const CreateTransactionModal = ({
             required
             content="number"
           />
+          <div className="flex items-center justify-start gap-2">
+            <MaiButton
+              icon="pi pi-plus"
+              type="button"
+              size="small"
+              rounded
+              className="h-10  w-10 bg-transparent text-whit transition-colors duration-200 border-gray-600"
+            />
+            <CategoryPillsWrapper
+              selectedCategory={formData.category.name}
+              setSelectedCategory={(category: string) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  category: { name: category },
+                }))
+              }
+            />
+          </div>
 
           <div className="flex items-center justify-between mt-10 gap-4">
             <TransactionToggle
               value={formData.transactionType}
               onChange={setTransactionType}
             />
-            <MaiButton icon="pi pi-check" className="rounded-xl w-full" />
+            <MaiButton
+              icon="pi pi-check"
+              className="rounded-xl w-full"
+              type="submit"
+            />
           </div>
         </form>
       )}
