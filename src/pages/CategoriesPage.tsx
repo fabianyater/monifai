@@ -113,7 +113,7 @@ export const CategoriesPage = () => {
                     ))}
                   </div>
                 </div>
-                <span className="text-sm text-center text-gray-300 break-words w-full">
+                <span className="text-sm font-semibold text-center text-gray-300 break-words w-full">
                   {category.name}
                 </span>
               </div>
