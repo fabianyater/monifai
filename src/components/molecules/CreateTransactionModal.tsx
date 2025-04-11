@@ -5,9 +5,12 @@ import { usePocketStore } from "../../lib/store/usePocketStore";
 import {
   ClassifiedTransaction,
   TransactionRequest,
+  TransactionType,
 } from "../../lib/types/Transactions";
 import { useCreateTransactionMutation } from "../../services/transactions/mutations";
 import { DatePicker } from "../atoms/DatePicker";
+import { MaiButton } from "../atoms/MaiButton";
+import TransactionToggle from "../atoms/TranscationToggle";
 
 type CreateTransactionModalProps = {
   transaction?: ClassifiedTransaction;
@@ -70,11 +73,16 @@ export const CreateTransactionModal = ({
     });
   };
 
+  function setTransactionType(value: TransactionType): void {
+    setFormData((prev) => ({ ...prev, transactionType: value }));
+  }
+
   return (
     <Dialog
       visible={true}
       onHide={onClose}
-      closable={false}
+      dismissableMask={true}
+      modal={true}
       className="w-full sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
       content={({ hide }) => (
         <form
@@ -93,13 +101,17 @@ export const CreateTransactionModal = ({
             />
             <select
               name="periodicity"
-              className="w-max bg-[#1a1a1a] text-white py-2 rounded"
+              className="w-max bg-transparent text-white py-2 rounded"
               onChange={(e) =>
                 handleSelectChange("periodicity", e.target.value)
               }
             >
               {PERIODICITY_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  className="bg-black text-white"
+                >
                   {option.label}
                 </option>
               ))}
@@ -127,6 +139,14 @@ export const CreateTransactionModal = ({
             required
             content="number"
           />
+
+          <div className="flex items-center justify-between mt-10 gap-4">
+            <TransactionToggle
+              value={formData.transactionType}
+              onChange={setTransactionType}
+            />
+            <MaiButton icon="pi pi-check" className="rounded-xl w-full" />
+          </div>
         </form>
       )}
     ></Dialog>
