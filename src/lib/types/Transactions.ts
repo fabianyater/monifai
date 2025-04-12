@@ -47,6 +47,14 @@ export interface TransactionRequest {
   pocketId: number;
 }
 
+export type TransactionSummaryByCategories = {
+  id: number;
+  name: string;
+  emoji: string[];
+  totalAmount: number;
+};
+
+
 export const transactionTypes: TransactionTypeOption[] = [
   {
     label: "Ingresos",

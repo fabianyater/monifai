@@ -3,6 +3,7 @@ import { ApiResponse } from "../../lib/types/ApiResponse";
 import {
   ClassifiedTransaction,
   TransactionRequest,
+  TransactionSummaryByCategories,
 } from "../../lib/types/Transactions";
 
 export const classifyTransaction = async (
@@ -53,6 +54,22 @@ export const createTransaction = async (
     `/transactions/`,
     transaction
   );
+
+  return response.data.data;
+};
+
+export const getTransactionsSummaryByCategory = async (
+  pocketId: number,
+  transactionType: string
+): Promise<TransactionSummaryByCategories[]> => {
+  const response = await axiosConfig.get<
+    ApiResponse<TransactionSummaryByCategories[]>
+  >("/transactions", {
+    params: {
+      pocketId,
+      transactionType,
+    },
+  });
 
   return response.data.data;
 };
