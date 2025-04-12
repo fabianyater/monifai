@@ -19,11 +19,10 @@ export const HomePage = () => {
   const setisTransactionModalOpen = useTransactionStore(
     (state) => state.setIsTransactionModalOpen
   );
-  const userId = useUserStore((state) => state.userId);
   const user = useUserStore((state) => state.user);
   const selectedPocket = usePocketStore((state) => state.selectedPocket);
   const setSelectedPocket = usePocketStore((state) => state.setSelectedPocket);
-  const { queryKey, queryFn } = usePockets(Number(userId));
+  const { queryKey, queryFn } = usePockets();
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn,

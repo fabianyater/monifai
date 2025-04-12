@@ -27,7 +27,7 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
 
   const maxAmount = Math.max(...(data?.map((c) => c.totalAmount) ?? [1]));
 
-  return (
+  return data && data.length > 0 ? (
     <div className="flex flex-col items-center justify-end w-full bg-[#2D2D2D] rounded-3xl py-4 h-[300px]">
       <div
         className="flex justify-start items-end gap-2 w-full px-6"
@@ -62,6 +62,15 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
           );
         })}
       </div>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center justify-center w-full bg-[#2D2D2D] rounded-3xl py-4 h-[300px]">
+      <span className="text-white text-lg">
+        No hay transacciones para este bolsillo
+      </span>
+      <span className="text-gray-500 text-sm">
+        Intenta añadir una transacción nueva haciendo clic en el micrófono
+      </span>
     </div>
   );
 };
