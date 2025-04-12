@@ -4,6 +4,7 @@ import { Greet } from "../components/atoms/Greet";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { MaiSelect } from "../components/atoms/MaiSelect";
 import { CreateTransactionModal } from "../components/molecules/CreateTransactionModal";
+import { CategoryChart } from "../components/organisms/CategoryChart";
 import { TransactionCard } from "../components/organisms/TransactionCard";
 import { usePocketStore } from "../lib/store/usePocketStore";
 import { useTransactionStore } from "../lib/store/useTransactionStore";
@@ -64,6 +65,7 @@ export const HomePage = () => {
         </div>
         <div className="w-full flex flex-col gap-2 items-center justify-start">
           <TransactionCard />
+          {selectedPocket && <CategoryChart pocketId={selectedPocket.id} />}
         </div>
       </section>
       {isTransactionModalOpen && (
