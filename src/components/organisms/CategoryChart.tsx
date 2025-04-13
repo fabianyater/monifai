@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTransactionStore } from "../../lib/store/useTransactionStore";
 import { useTransactionSummaryByCategory } from "../../services/transactions/queries";
 import { Spinner } from "../atoms/Spinner";
-
 type CategoryChartProps = {
   pocketId: number;
 };
@@ -64,11 +63,16 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col items-center justify-center w-full bg-[#2D2D2D] rounded-3xl py-4 h-[300px]">
-      <span className="text-white text-lg">
+    <div
+      className="flex flex-col items-center justify-center w-full rounded-3xl py-4 h-[300px] text-center bg-[#2D2D2D] bg-contain bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(../../../../public/empty-bars.svg)`,
+      }}
+    >
+      <span className="text-white text-lg drop-shadow-md">
         No hay transacciones para este bolsillo
       </span>
-      <span className="text-gray-500 text-sm">
+      <span className="text-gray-300 text-sm drop-shadow-md">
         Intenta añadir una transacción nueva haciendo clic en el micrófono
       </span>
     </div>
