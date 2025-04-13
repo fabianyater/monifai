@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePocketStore } from "../../lib/store/usePocketStore";
 import { useTransactionStore } from "../../lib/store/useTransactionStore";
+import { pocketKeys } from "../pockets/keys";
 import { classifyTransaction, createTransaction } from "./api";
 import { transactionKeys } from "./keys";
 
@@ -29,10 +30,22 @@ export const useCreateTransactionMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
+          transactionKeys.monthlyBalanceByType,
+          pocketId,
+          transactionType,
+        ],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
           transactionKeys.transactionSummaryByCategory,
           pocketId,
           transactionType,
         ],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [pocketKeys.totalBalance, pocketId],
         refetchType: "active",
       });
     },
