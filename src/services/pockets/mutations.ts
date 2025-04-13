@@ -9,7 +9,7 @@ export const useCreatePocket = () => {
     mutationFn: createPocket,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: pocketKeys.pockets,
+        queryKey: [pocketKeys.pockets],
         refetchType: "active",
       });
     },
