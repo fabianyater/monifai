@@ -1,11 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { formatAmount } from "../../lib/helpers/formatAmount";
+import { usePocketStore } from "../../lib/store/usePocketStore";
+import { useTotalBalance } from "../../services/pockets/queries";
 import { TransactionTypeSelector } from "../atoms/TransactionTypeSelector";
 
-type TransactionSummaryProps = {
-  amount: number;
-};
+export const TransactionSummary = () => {
+  const selectedPocket = usePocketStore((state) => state.selectedPocket);
 
-export const TransactionSummary = ({ amount }: TransactionSummaryProps) => {
+  const { queryKey, queryFn } = useTotalBalance(selectedPocket?.id ?? 0);
+  const { data, isLoading } = useQuery({
+    queryKey,
+    queryFn,
+    enabled: !!selectedPocket?.id,
+  });
+
   return (
     <div className="flex flex-col">
       <TransactionTypeSelector />
@@ -14,7 +22,7 @@ export const TransactionSummary = ({ amount }: TransactionSummaryProps) => {
           Total{" "}
         </span>
         <span className="text-sm lg:text-base font-black">
-          {formatAmount(amount)}
+          {isLoading ? "..." : formatAmount(data ?? 0)}
         </span>
       </div>
     </div>

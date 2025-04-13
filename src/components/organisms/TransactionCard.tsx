@@ -19,10 +19,10 @@ export const TransactionCard = () => {
     queryFn,
     enabled: !!selectedPocket && !!selectedPocket.id,
   });
-  
+
   return (
     <div className="flex flex-col items-center justify-center w-full bg-[#2D2D2D] rounded-3xl py-4">
-      <TransactionSummary amount={selectedPocket?.balance ?? 0} />
+      <TransactionSummary />
       <div className="my-4">
         <FormattedAmount amount={data ?? 0} />
       </div>
