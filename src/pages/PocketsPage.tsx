@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { PocketCard } from "../components/atoms/PocketCard";
-import { CreatePocketModal } from "../components/molecules/CreatePocketMotdal";
+import { CreatePocketModal } from "../components/molecules/CreatePocketModal";
 import { usePockets } from "../services/pockets/queries";
 
 export const PocketsPage = () => {
