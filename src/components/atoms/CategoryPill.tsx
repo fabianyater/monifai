@@ -25,7 +25,7 @@ export const CategoryPill = ({
         }
         `}
     >
-      <span className="text-xl">{category.emojis[0]}</span>
+      <span className="text-xl">{category.defaultEmoji}</span>
       <span className="text-sm font-medium mr-1">{category.name}</span>
       {hasSelection && selected && (
         <span className="text-xs text-gray-400">
