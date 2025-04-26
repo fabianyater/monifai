@@ -1,9 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Ripple } from "primereact/ripple";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { CreateCategoryModal } from "../components/molecules/CreateCategoryModal";
+import { updateCategoryDefaultEmoji } from "../services/categories/api";
 import { useCategories } from "../services/categories/queries";
 
 const emojiVariants = {
@@ -30,6 +32,32 @@ export const CategoriesPage = () => {
   const { queryKey, queryFn } = useCategories();
   const { data } = useQuery({ queryKey, queryFn });
 
+  const timeoutRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
+  const queryClient = useQueryClient();
+
+  const { mutate: updateDefaultEmoji } = useMutation({
+    mutationKey: ["updateCategoryDefaultEmoji"],
+    mutationFn: updateCategoryDefaultEmoji,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey, refetchType: "active" });
+      toast.success("Emoji actualizado");
+    },
+    onError: () => {
+      toast.error("Error al actualizar emoji");
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      const initialIndices: { [key: string]: number } = {};
+      data.forEach((category) => {
+        const index = category.emojis.indexOf(category.defaultEmoji ?? "");
+        initialIndices[category.id] = index !== -1 ? index : 0;
+      });
+      setEmojiIndices(initialIndices);
+    }
+  }, [data]);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-12">
@@ -46,13 +74,13 @@ export const CategoriesPage = () => {
       {data && data.length > 0 ? (
         <div className="flex flex-wrap items-start gap-4">
           {data.map((category) => {
-            const currentEmojiIndex = emojiIndices[category.id] || 0;
-            const currentEmoji = category.emojis[currentEmojiIndex] || "📚";
+            const currentEmojiIndex = emojiIndices[category.id] ?? 0;
+            const currentEmoji = category.emojis[currentEmojiIndex];
 
             return (
               <div
                 key={category.id}
-                className="flex flex-col items-center gap-3 group cursor-pointe"
+                className="flex flex-col items-center gap-3 group cursor-pointer"
                 title="Desliza para cambiar el emoji"
               >
                 <div className="w-24 h-24 rounded-xl bg-neutral-800 hover:bg-neutral-700 transition-colors duration-300 relative overflow-hidden flex items-center justify-center shadow-md">
@@ -84,6 +112,20 @@ export const CategoriesPage = () => {
                           ...prev,
                           [category.id]: next,
                         }));
+
+                        // Limpiar timeout anterior
+                        clearTimeout(timeoutRef.current[category.id]);
+
+                        // Programar actualización si se mantiene ese emoji
+                        timeoutRef.current[category.id] = setTimeout(() => {
+                          const selectedEmoji = category.emojis[next];
+                          if (selectedEmoji !== category.defaultEmoji) {
+                            updateDefaultEmoji({
+                              categoryName: category.name,
+                              newEmoji: selectedEmoji,
+                            });
+                          }
+                        }, 2000);
                       }
                     }}
                   >
