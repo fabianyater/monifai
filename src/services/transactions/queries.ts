@@ -1,6 +1,8 @@
+import { TransactionType } from "../../lib/types/Transactions";
 import {
   getMonthlyExpenses,
   getMonthlyIncomes,
+  getTransactionsByCategoryName,
   getTransactionsSummaryByCategory,
 } from "./api";
 import { transactionKeys } from "./keys";
@@ -30,5 +32,21 @@ export const useTransactionSummaryByCategory = (
       return response;
     },
     enabled: !!pocketId && !!txnType,
+  };
+};
+
+export const useTransactionsByCategoryName = (
+  categoryName: string,
+  pocketId: number,
+  transactionType: TransactionType
+) => {
+  return {
+    queryKey: [
+      transactionKeys.transactionsByCategoryName,
+      "categoryName",
+      categoryName,
+    ],
+    queryFn: async () =>
+      getTransactionsByCategoryName(pocketId, categoryName, transactionType),
   };
 };
