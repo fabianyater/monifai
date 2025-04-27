@@ -54,6 +54,15 @@ export type TransactionSummaryByCategories = {
   totalAmount: number;
 };
 
+export type TransactionResponse = {
+  id: number;
+  description: string;
+  value: number;
+  category: string;
+  emoji: string;
+  date: string;
+}
+
 
 export const transactionTypes: TransactionTypeOption[] = [
   {
