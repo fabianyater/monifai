@@ -8,8 +8,10 @@ type CategoryChartProps = {
 
 import { motion } from "framer-motion";
 import { Tooltip } from "primereact/tooltip";
+import { useNavigate } from "react-router";
 
 export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
+  const navigate = useNavigate();
   const transactionType = useTransactionStore((state) => state.transactionType);
   const { queryKey, queryFn, enabled } = useTransactionSummaryByCategory(
     pocketId,
@@ -41,6 +43,7 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
               key={category.id}
               className="flex flex-col items-center w-14 cursor-pointer custom-tooltip-div"
               data-pr-tooltip={category.name}
+              onClick={() => navigate(`/transactions/${category.name}`)}
             >
               <motion.div
                 className="w-full bg-black/40 rounded-xl transition-all duration-500 flex flex-col items-center justify-end text-white text-sm hover:bg-black"
