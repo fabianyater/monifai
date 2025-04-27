@@ -8,6 +8,7 @@ import { NotFoundPage } from "../pages/NotFoundPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import { PocketsPage } from "../pages/PocketsPage";
+import { TransactionsPage } from "../pages/TransactionsPage";
 
 export default function RoutesPage() {
   return (
@@ -25,6 +26,7 @@ export default function RoutesPage() {
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.CATEGORIES} element={<CategoriesPage />} />
           <Route path={ROUTES.POCKETS} element={<PocketsPage />} />
+          <Route path={`${ROUTES.TRANSACTIONS}/:categoryName`} element={<TransactionsPage />} />
         </Route>
 
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />

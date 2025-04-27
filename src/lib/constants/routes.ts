@@ -4,5 +4,6 @@ export const ROUTES = {
   REGISTER: '/register',
   HOME: '/home',
   CATEGORIES: '/categories',
-  POCKETS: '/pockets'
+  POCKETS: '/pockets',
+  TRANSACTIONS: '/transactions'
 }
