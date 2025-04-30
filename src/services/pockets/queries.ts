@@ -1,4 +1,4 @@
-import { getPocketBalance, getPockets } from "./api";
+import { getPocketBalance, getPockets, getTotalBalance } from "./api";
 import { pocketKeys } from "./keys";
 
 export const usePockets = () => {
@@ -19,5 +19,15 @@ export const useTotalBalance = (pocketId: number) => {
       return response;
     },
     enabled: !!pocketId,
+  };
+};
+
+export const useAllPocketsBalance = () => {
+  return {
+    queryKey: [pocketKeys.allPocketsBalance],
+    queryFn: async () => {
+      const response = await getTotalBalance();
+      return response;
+    },
   };
 };
