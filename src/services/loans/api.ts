@@ -1,6 +1,10 @@
 import { axiosConfig } from "../../lib/helpers/axios/axiosConfig";
 import { ApiResponse } from "../../lib/types/ApiResponse";
-import { LoanRequest, LoanResponse } from "../../lib/types/Loan";
+import {
+  LoanPaymentRequest,
+  LoanRequest,
+  LoanResponse,
+} from "../../lib/types/Loan";
 
 export const createLoan = async (loan: LoanRequest): Promise<void> => {
   const response = await axiosConfig.post("/loans/", loan);
@@ -22,4 +26,15 @@ export const getLoan = async (loanId: number): Promise<LoanResponse> => {
   );
 
   return response.data.data;
+};
+
+export const makePayment = async (
+  loanPaymentRequest: LoanPaymentRequest
+): Promise<ApiResponse<void>> => {
+  const response = await axiosConfig.post<ApiResponse<void>>(
+    "/loans/payment",
+    loanPaymentRequest
+  );
+
+  return response.data;
 };
