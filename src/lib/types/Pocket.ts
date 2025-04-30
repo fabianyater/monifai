@@ -16,3 +16,7 @@ export type PocketResponse = {
   balance: number;
   emoji: string;
 };
+
+export type TotalBalanceResponse = {
+  totalBalance: number;
+};
