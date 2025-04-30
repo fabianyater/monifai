@@ -2,6 +2,7 @@ import { axiosConfig } from "../../lib/helpers/axios/axiosConfig";
 import { ApiResponse } from "../../lib/types/ApiResponse";
 import {
   ClassifiedTransaction,
+  LoanTransactionsResponse,
   TransactionRequest,
   TransactionResponse,
   TransactionSummaryByCategories,
@@ -90,6 +91,16 @@ export const getTransactionsByCategoryName = async (
         type,
       },
     }
+  );
+
+  return response.data.data;
+};
+
+export const getLoanTransactions = async (
+  loanId: number
+): Promise<LoanTransactionsResponse[]> => {
+  const response = await axiosConfig.get<ApiResponse<LoanTransactionsResponse[]>>(
+    `/loans/${loanId}/transactions`
   );
 
   return response.data.data;
