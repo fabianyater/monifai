@@ -21,4 +21,10 @@ export const MAIN_MENU_ITEMS: Item[] = [
     icon: "pi pi-fw pi-money-bill",
     path: ROUTES.LOANS,
   },
+  {
+    id: 5,
+    label: "Metas",
+    icon: "pi pi-fw pi-money-bill",
+    path: ROUTES.GOALS,
+  },
 ];

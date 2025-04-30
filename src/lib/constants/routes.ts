@@ -7,4 +7,5 @@ export const ROUTES = {
   POCKETS: '/pockets',
   TRANSACTIONS: '/transactions',
   LOANS: '/loans',
+  GOALS: '/goals',
 }
