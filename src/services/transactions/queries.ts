@@ -1,5 +1,6 @@
 import { TransactionType } from "../../lib/types/Transactions";
 import {
+  getLoanTransactions,
   getMonthlyExpenses,
   getMonthlyIncomes,
   getTransactionsByCategoryName,
@@ -48,5 +49,16 @@ export const useTransactionsByCategoryName = (
     ],
     queryFn: async () =>
       getTransactionsByCategoryName(pocketId, categoryName, transactionType),
+  };
+};
+
+export const useLoanTransactions = (loanId: number) => {
+  return {
+    queryKey: [transactionKeys.loanTransactions, loanId],
+    queryFn: async () => {
+      const response = await getLoanTransactions(loanId);
+      return response;
+    },
+    enabled: !!loanId
   };
 };

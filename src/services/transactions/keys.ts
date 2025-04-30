@@ -4,4 +4,5 @@ export const transactionKeys = {
   createTransaction: ["createTransaction"] as const,
   transactionSummaryByCategory: ["transactionSummaryByCategory"] as const,
   transactionsByCategoryName: ["transactionsByCategoryName"] as const,
+  loanTransactions: ["loanTransactions"] as const,
 };
