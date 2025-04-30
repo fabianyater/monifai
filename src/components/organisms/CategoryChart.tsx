@@ -52,7 +52,7 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <span className="text-xl leading-none">
-                  {category.emoji[0]}
+                  {category.defaultEmoji}
                 </span>
                 <span className="text-xs leading-none mb-1">
                   {category.totalAmount === 0
