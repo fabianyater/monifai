@@ -1,3 +1,4 @@
+import { LoanType } from "../types/Loan";
 import { Periodicity } from "../types/Transactions";
 
 export type SelectOption<T = string> = {
@@ -13,4 +14,9 @@ export const PERIODICITY_OPTIONS: SelectOption<Periodicity>[] = [
   { label: "Mensual", value: "MONTHLY" },
   { label: "Trimestral", value: "QUARTERLY" },
   { label: "Anual", value: "YEARLY" },
+];
+
+export const LOAN_TYPE_OPTIONS: SelectOption<LoanType>[] = [
+  { label: "Por cobrar", value: "LENDER" },
+  { label: "Por pagar", value: "BORROWER" },
 ];
