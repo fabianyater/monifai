@@ -6,6 +6,7 @@ type InputProps = Pick<
 > & {
   label: string;
   error?: string;
+  className?: string;
 };
 
 export const Input = ({
@@ -15,6 +16,7 @@ export const Input = ({
   required,
   name,
   error,
+  className,
   ...props
 }: InputProps) => {
   return (
@@ -27,6 +29,7 @@ export const Input = ({
         type={type}
         placeholder={placeholder}
         invalid={!!error}
+        className={className}
         {...props}
       />
       {error && <small className="text-red-500 break-words">{error}</small>}
