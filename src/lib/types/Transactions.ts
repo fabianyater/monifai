@@ -50,7 +50,7 @@ export interface TransactionRequest {
 export type TransactionSummaryByCategories = {
   id: number;
   name: string;
-  emoji: string[];
+  defaultEmoji: string;
   totalAmount: number;
 };
 
