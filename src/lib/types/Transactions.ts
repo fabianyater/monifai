@@ -63,6 +63,16 @@ export type TransactionResponse = {
   date: string;
 }
 
+export type LoanTransactionsResponse = {
+  id: number;
+  emoji: string;
+  categoryName: string;
+  pocketName: string;
+  amount: number;
+  date: string;
+};
+
+
 
 export const transactionTypes: TransactionTypeOption[] = [
   {
