@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { ProgressBar } from "primereact/progressbar";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { toast } from "sonner";
+import { MaiButton } from "../components/atoms/MaiButton";
 import { formatAmount } from "../lib/helpers/formatAmount";
 import { formatDateWithTime } from "../lib/helpers/formatDate";
 import { useLoan } from "../services/loans/queries";
@@ -9,6 +10,9 @@ import { useLoanTransactions } from "../services/transactions/queries";
 
 export const LoanDetailsPage = () => {
   const { loanId } = useParams<{ loanId: string }>();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const loanType = queryParams.get("loanType");
   const { queryKey, queryFn } = useLoan(Number(loanId));
   const { data, isLoading, isError } = useQuery({
     queryKey,
@@ -18,7 +22,7 @@ export const LoanDetailsPage = () => {
   const {
     queryKey: loanTransactionsQueryKey,
     queryFn: loanTransactionsQueryFn,
-  } = useLoanTransactions(Number(loanId));
+  } = useLoanTransactions(Number(loanId), loanType ?? "");
   const {
     data: loanTransactions,
     isLoading: isLoanTransactionsLoading,
@@ -42,16 +46,24 @@ export const LoanDetailsPage = () => {
   return data ? (
     <div>
       <div className="bg-neutral-800 rounded-xl p-6 flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <div className="rounded-full w-12 h-12 p-4 flex items-center justify-center text-xl bg-neutral-600 text-white font-bold">
-            {data.loanParty.charAt(0)}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="rounded-full w-12 h-12 p-4 flex items-center justify-center text-xl bg-neutral-600 text-white font-bold">
+              {data.loanParty.charAt(0)}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-semibold">{data.loanParty}</span>
+              <span className="text-sm text-neutral-400">
+                {data.loanType === "LENDER" ? "Por cobrar" : "Por pagar"}
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-semibold">{data.loanParty}</span>
-            <span className="text-sm text-neutral-400">
-              {data.loanType === "LENDER" ? "Por cobrar" : "Por pagar"}
-            </span>
-          </div>
+          <MaiButton
+            icon="pi pi-plus"
+            size="small"
+            type="button"
+            label="Añadir pago"
+          />
         </div>
         <div className="w-full flex flex-col gap-2 rounded-xl mt-3">
           <div className="flex items-center justify-between">
@@ -122,10 +134,10 @@ export const LoanDetailsPage = () => {
                   </span>
                 </div>
                 <div className="flex flex-col items-end ml-auto">
-                  <span className="text-xs text-neutral-400">
+                  <span>
                     {formatAmount(transaction.amount, undefined, "COP")}
                   </span>
-                  <span className="text-xs text-neutral-400">
+                  <span className="text-sm text-neutral-400">
                     {formatDateWithTime(transaction.date)}
                   </span>
                 </div>

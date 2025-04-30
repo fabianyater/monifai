@@ -52,13 +52,13 @@ export const useTransactionsByCategoryName = (
   };
 };
 
-export const useLoanTransactions = (loanId: number) => {
+export const useLoanTransactions = (loanId: number, loanType: string) => {
   return {
     queryKey: [transactionKeys.loanTransactions, loanId],
     queryFn: async () => {
-      const response = await getLoanTransactions(loanId);
+      const response = await getLoanTransactions(loanId, loanType);
       return response;
     },
-    enabled: !!loanId
+    enabled: !!loanId,
   };
 };

@@ -97,11 +97,12 @@ export const getTransactionsByCategoryName = async (
 };
 
 export const getLoanTransactions = async (
-  loanId: number
+  loanId: number,
+  loanType: string
 ): Promise<LoanTransactionsResponse[]> => {
-  const response = await axiosConfig.get<ApiResponse<LoanTransactionsResponse[]>>(
-    `/loans/${loanId}/transactions`
-  );
+  const response = await axiosConfig.get<
+    ApiResponse<LoanTransactionsResponse[]>
+  >(`/loans/${loanId}/type/${loanType}/transactions`);
 
   return response.data.data;
 };

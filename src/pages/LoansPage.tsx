@@ -44,7 +44,9 @@ export const LoansPage = () => {
             <div
               key={loan.id}
               className="w-full flex items-center justify-between gap-4 p-4 rounded-xl bg-gray-600 hover:bg-gray-700 transition-colors duration-300 cursor-pointer"
-              onClick={() => navigate(`/loans/${loan.id}`)}
+              onClick={() =>
+                navigate(`/loans/${loan.id}?loanType=${loan.loanType}`)
+              }
             >
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-neutral-800 flex items-center justify-center">
