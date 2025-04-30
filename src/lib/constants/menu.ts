@@ -19,6 +19,6 @@ export const MAIN_MENU_ITEMS: Item[] = [
     id: 4,
     label: "Deudas",
     icon: "pi pi-fw pi-money-bill",
-    path: ROUTES.DEBTS,
+    path: ROUTES.LOANS,
   },
 ];

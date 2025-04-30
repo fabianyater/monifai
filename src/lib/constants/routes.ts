@@ -6,5 +6,5 @@ export const ROUTES = {
   CATEGORIES: '/categories',
   POCKETS: '/pockets',
   TRANSACTIONS: '/transactions',
-  DEBTS: '/debts',
+  LOANS: '/loans',
 }
