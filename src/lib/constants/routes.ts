@@ -5,5 +5,6 @@ export const ROUTES = {
   HOME: '/home',
   CATEGORIES: '/categories',
   POCKETS: '/pockets',
-  TRANSACTIONS: '/transactions'
+  TRANSACTIONS: '/transactions',
+  DEBTS: '/debts',
 }
