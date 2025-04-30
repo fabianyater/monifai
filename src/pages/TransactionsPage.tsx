@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
+import { Spinner } from "../components/atoms/Spinner";
 import { formatAmount } from "../lib/helpers/formatAmount";
 import { formatDate } from "../lib/helpers/formatDate";
 import { usePocketStore } from "../lib/store/usePocketStore";
@@ -16,7 +17,7 @@ export const TransactionsPage = () => {
     transactionType
   );
 
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey,
     queryFn,
     enabled: !!categoryName,
@@ -24,12 +25,19 @@ export const TransactionsPage = () => {
 
   const showSingular = data?.length === 1 ? "" : "es";
 
+  if (isPending) return <Spinner />;
+
   return data ? (
     <div>
       <div className="flex items-center justify-between mb-12">
-        <h2 className="font-semibold text-3xl tracking-tight">
-          Transacciones en {categoryName}
-        </h2>
+        <div>
+          <h2 className="font-semibold text-3xl tracking-tight">
+            Transacciones en {categoryName}
+          </h2>
+          <span>
+            {formatAmount(data.reduce((acc, curr) => acc + curr.value, 0))}
+          </span>
+        </div>
         <div className="flex gap-2 items-center">
           <span className="text-gray-300 text-sm">
             {data.length > 0
