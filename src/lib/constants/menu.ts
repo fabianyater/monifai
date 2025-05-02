@@ -24,7 +24,7 @@ export const MAIN_MENU_ITEMS: Item[] = [
   {
     id: 5,
     label: "Metas",
-    icon: "pi pi-fw pi-money-bill",
+    icon: "pi pi-bullseye",
     path: ROUTES.GOALS,
   },
 ];
