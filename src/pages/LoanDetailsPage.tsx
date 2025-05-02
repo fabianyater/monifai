@@ -95,7 +95,9 @@ export const LoanDetailsPage = () => {
                 breakpoint="767px"
               />
               <MaiButton
-                label="Acción"
+                icon="pi pi-ellipsis-v"
+                className="p-0 bg-transparent border-none"
+                rounded
                 onClick={(e) => menu.current?.toggle(e)}
               />
             </div>
