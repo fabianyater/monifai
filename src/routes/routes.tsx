@@ -2,6 +2,8 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { HomeLayout } from "../components/templates/HomeLayout";
 import { ROUTES } from "../lib/constants";
 import { CategoriesPage } from "../pages/CategoriesPage";
+import { GoalDetailsPage } from "../pages/GoalDetailsPage";
+import { GoalsPage } from "../pages/GoalsPage";
 import { HomePage } from "../pages/HomePage";
 import { LoanDetailsPage } from "../pages/LoanDetailsPage";
 import { LoansPage } from "../pages/LoansPage";
@@ -36,6 +38,11 @@ export default function RoutesPage() {
           <Route
             path={`${ROUTES.LOANS}/:loanId`}
             element={<LoanDetailsPage />}
+          />
+          <Route path={ROUTES.GOALS} element={<GoalsPage />} />
+          <Route
+            path={`${ROUTES.GOALS}/:goalId`}
+            element={<GoalDetailsPage />}
           />
         </Route>
 
