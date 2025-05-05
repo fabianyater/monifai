@@ -13,13 +13,17 @@ export const formatDate = (date: string | Date) => {
 export const formatDateWithTime = (date: string | Date) => {
   const dateObj = new Date(date);
 
-  const dateFormatted = formatDate(dateObj);
-
-  const timeFormatted = dateObj.toLocaleTimeString("es-CO", {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  });
+    timeZone: "America/Bogota",
+  };
 
-  return `${dateFormatted}, ${timeFormatted.toLowerCase()}`;
+  return new Intl.DateTimeFormat("es-CO", options)
+    .format(dateObj)
+    .replace(",", ",");
 };
