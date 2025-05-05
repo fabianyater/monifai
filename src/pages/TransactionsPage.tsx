@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { addLocale } from "primereact/api";
 import { Calendar } from "primereact/calendar";
 import { useState } from "react";
 import { useParams } from "react-router";
@@ -41,6 +42,51 @@ export const TransactionsPage = () => {
 
   const showSingular = data?.length === 1 ? "Transacción" : "Transacciones";
 
+  addLocale("es", {
+    firstDayOfWeek: 1,
+    dayNames: [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado",
+    ],
+    dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+    dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
+    monthNames: [
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre",
+    ],
+    monthNamesShort: [
+      "ene",
+      "feb",
+      "mar",
+      "abr",
+      "may",
+      "jun",
+      "jul",
+      "ago",
+      "sep",
+      "oct",
+      "nov",
+      "dic",
+    ],
+    today: "Hoy",
+    clear: "Limpiar",
+  });
+
   if (isPending) return <Spinner />;
 
   return data ? (
@@ -59,6 +105,7 @@ export const TransactionsPage = () => {
             {data.length > 0 ? data.length : 0} {showSingular}
           </span>
           <Calendar
+            locale="es"
             iconPos="left"
             icon="pi pi-filter"
             showIcon
