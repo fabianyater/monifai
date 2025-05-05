@@ -8,4 +8,5 @@ export const ROUTES = {
   TRANSACTIONS: '/transactions',
   LOANS: '/loans',
   GOALS: '/goals',
+  BUDGETS: '/budgets',
 }

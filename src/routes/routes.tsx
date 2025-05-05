@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { HomeLayout } from "../components/templates/HomeLayout";
 import { ROUTES } from "../lib/constants";
+import { BudgetsPage } from "../pages/BudgetPage";
 import { CategoriesPage } from "../pages/CategoriesPage";
 import { GoalDetailsPage } from "../pages/GoalDetailsPage";
 import { GoalsPage } from "../pages/GoalsPage";
@@ -44,6 +45,7 @@ export default function RoutesPage() {
             path={`${ROUTES.GOALS}/:goalId`}
             element={<GoalDetailsPage />}
           />
+          <Route path={ROUTES.BUDGETS} element={<BudgetsPage />} />
         </Route>
 
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
