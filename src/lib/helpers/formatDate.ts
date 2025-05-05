@@ -4,6 +4,7 @@ export const formatDate = (date: string | Date) => {
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
   };
 
   return new Intl.DateTimeFormat("es-CO", options).format(dateObj);

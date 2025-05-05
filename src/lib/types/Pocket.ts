@@ -20,3 +20,9 @@ export type PocketResponse = {
 export type TotalBalanceResponse = {
   totalBalance: number;
 };
+
+export type PocketTransferRequest = {
+  fromPocketId: number;
+  toPocketId: number;
+  amount: number;
+};

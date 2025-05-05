@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import CircularProgress from "../components/atoms/CircularProgress";
 import { MaiButton } from "../components/atoms/MaiButton";
@@ -7,7 +8,6 @@ import { CreateGoalModal } from "../components/molecules/CreateGoalModal";
 import { formatAmount } from "../lib/helpers/formatAmount";
 import { formatDate } from "../lib/helpers/formatDate";
 import { useGoals } from "../services/goals/queries";
-import { useNavigate } from "react-router";
 
 export const GoalsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -24,20 +24,29 @@ export const GoalsPage = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-12">
-        <div className="flex gap-2 items-start flex-col">
-          <h2 className="font-semibold text-3xl tracking-tight">Metas</h2>
-          <span className="text-gray-300 text-sm">
-            {data ? "Total de metas: " + data.length : "0 metas"}
-          </span>
+      <div className="flex flex-col mb-12 gap-8">
+        <div className="flex items-center justify-between ">
+          <div className="flex gap-2 items-start flex-col">
+            <h2 className="font-semibold text-3xl tracking-tight">Metas</h2>
+            <span className="text-gray-300 text-sm">
+              {data ? "Total de metas: " + data.length : "0 metas"}
+            </span>
+          </div>
+          <MaiButton
+            icon="pi pi-plus"
+            label="Añadir meta"
+            size="small"
+            className="border border-gray-400 text-gray-200 hover:bg-gray-200 hover:text-black transition-colors duration-200"
+            onClick={() => setIsDialogOpen(true)}
+          />
         </div>
-        <MaiButton
-          icon="pi pi-plus"
-          label="Añadir meta"
-          size="small"
-          className="border border-gray-400 text-gray-200 hover:bg-gray-200 hover:text-black transition-colors duration-200"
-          onClick={() => setIsDialogOpen(true)}
-        />
+        <p className="text-gray-400">
+          Las metas te permiten planear y organizar tu dinero con un propósito
+          específico, sin afectar directamente el saldo de tus bolsillos. El
+          dinero que registras en una meta no se asocia a ningún bolsillo, lo
+          que te da libertad para enfocarte en ahorrar o controlar gastos sin
+          comprometer tu presupuesto actual.
+        </p>
       </div>
       {data && data.length > 0 ? (
         <div className="flex flex-wrap items-start gap-4">

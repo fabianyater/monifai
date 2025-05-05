@@ -1,13 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
+import { Calendar } from "primereact/calendar";
+import { useState } from "react";
 import { useParams } from "react-router";
 import { Spinner } from "../components/atoms/Spinner";
 import { formatAmount } from "../lib/helpers/formatAmount";
 import { formatDate } from "../lib/helpers/formatDate";
 import { usePocketStore } from "../lib/store/usePocketStore";
 import { useTransactionStore } from "../lib/store/useTransactionStore";
-import { useTransactionsByCategoryName } from "../services/transactions/queries";
+import {
+  useTransactionsByCategoryName,
+  useTransactionsByCategoryNameFilteredByDate,
+} from "../services/transactions/queries";
 
 export const TransactionsPage = () => {
+  const [isFilteringByDate, setIsFilteringByDate] = useState(false);
+
+  const [dates, setDates] = useState<Date[]>([]);
   const transactionType = useTransactionStore((state) => state.transactionType);
   const pocketId = usePocketStore((state) => state.selectedPocket?.id);
   const { categoryName } = useParams();
@@ -16,14 +24,22 @@ export const TransactionsPage = () => {
     pocketId ?? 0,
     transactionType
   );
+  const { queryKey: filteredByDateQueryKey, queryFn: filteredByDateQueryFn } =
+    useTransactionsByCategoryNameFilteredByDate(
+      categoryName ?? "",
+      pocketId ?? 0,
+      transactionType,
+      dates[0],
+      dates[1]
+    );
 
   const { data, isPending } = useQuery({
-    queryKey,
-    queryFn,
+    queryKey: isFilteringByDate ? filteredByDateQueryKey : queryKey,
+    queryFn: isFilteringByDate ? filteredByDateQueryFn : queryFn,
     enabled: !!categoryName,
   });
 
-  const showSingular = data?.length === 1 ? "" : "es";
+  const showSingular = data?.length === 1 ? "Transacción" : "Transacciones";
 
   if (isPending) return <Spinner />;
 
@@ -38,12 +54,27 @@ export const TransactionsPage = () => {
             {formatAmount(data.reduce((acc, curr) => acc + curr.value, 0))}
           </span>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex  flex-col gap-2 items-end">
           <span className="text-gray-300 text-sm">
-            {data.length > 0
-              ? `${data.length} transacción${showSingular}`
-              : "0 transacciones"}
+            {data.length > 0 ? data.length : 0} {showSingular}
           </span>
+          <Calendar
+            iconPos="left"
+            icon="pi pi-filter"
+            showIcon
+            value={dates}
+            onChange={(e) => {
+              setDates(
+                (e.value ?? []).filter((date): date is Date => date !== null)
+              );
+              setIsFilteringByDate(true);
+            }}
+            selectionMode="range"
+            readOnlyInput
+            hideOnRangeSelection
+            placeholder="Selecciona un rango de fechas"
+            showButtonBar
+          />
         </div>
       </div>
       <div className="w-full flex flex-wrap gap-4">

@@ -52,6 +52,30 @@ export const useTransactionsByCategoryName = (
   };
 };
 
+export const useTransactionsByCategoryNameFilteredByDate = (
+  categoryName: string,
+  pocketId: number,
+  transactionType: TransactionType,
+  startDate: Date,
+  endDate: Date
+) => {
+  return {
+    queryKey: [
+      transactionKeys.transactionsByCategoryName,
+      "categoryName",
+      categoryName,
+    ],
+    queryFn: async () =>
+      getTransactionsByCategoryName(
+        pocketId,
+        categoryName,
+        transactionType,
+        startDate,
+        endDate
+      ),
+  };
+};
+
 export const useLoanTransactions = (loanId: number, loanType: string) => {
   return {
     queryKey: [transactionKeys.loanTransactions, loanId],

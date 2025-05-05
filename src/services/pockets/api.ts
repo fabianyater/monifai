@@ -4,6 +4,7 @@ import {
   Pocket,
   PocketRequest,
   PocketResponse,
+  PocketTransferRequest,
   TotalBalanceResponse,
 } from "../../lib/types/Pocket";
 
@@ -35,6 +36,17 @@ export const createPocket = async (
   const response = await axiosConfig.post<ApiResponse<PocketResponse>>(
     "/pockets/",
     pocket
+  );
+
+  return response.data.data;
+};
+
+export const transferBetweenPockets = async (
+  pocketTransferRequest: PocketTransferRequest
+): Promise<void> => {
+  const response = await axiosConfig.post<ApiResponse<void>>(
+    "/pockets/transfer",
+    pocketTransferRequest
   );
 
   return response.data.data;

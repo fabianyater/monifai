@@ -13,7 +13,7 @@ type HeaderProps = {
 export const Header = ({ toggleSidebar }: HeaderProps) => {
   const user = useUserStore((state) => state.user);
 
-  const { backgroundColor, textColor } = useMemo(() => {
+  const { backgroundColor} = useMemo(() => {
     const bg = user?.color ?? "#0f28b8";
     const text = getContrastColor(bg);
     return { backgroundColor: bg, textColor: text };
@@ -25,7 +25,7 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
     <header className="w-full flex items-center justify-between py-4 pr-4 lg:px-0">
       <div className="flex items-center justify-center gap-2">
         <MaiButton
-          className="border-none focus:shadow-none"
+          className="border-none focus:shadow-none text-white"
           icon="pi pi-bars"
           size="large"
           rounded
@@ -52,7 +52,6 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
               fontWeight: "900",
               width: "50px",
               height: "50px",
-              color: textColor,
             }}
           />
         </>

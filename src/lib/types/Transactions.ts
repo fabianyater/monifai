@@ -1,6 +1,6 @@
 import { CategoryRequest } from "./Category";
 
-export type TransactionType = "INCOME" | "EXPENSE";
+export type TransactionType = "INCOME" | "EXPENSE" | "TRANSFER";
 
 export type TransactionTypeOption = {
   label: string;

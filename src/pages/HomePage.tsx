@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Greet } from "../components/atoms/Greet";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { MaiSelect } from "../components/atoms/MaiSelect";
 import { CreateTransactionModal } from "../components/molecules/CreateTransactionModal";
+import { CreateTransferModal } from "../components/molecules/CreateTransferModal";
 import { CategoryChart } from "../components/organisms/CategoryChart";
 import { TransactionCard } from "../components/organisms/TransactionCard";
 import { usePocketStore } from "../lib/store/usePocketStore";
@@ -13,6 +14,8 @@ import { Pocket } from "../lib/types/Pocket";
 import { usePockets } from "../services/pockets/queries";
 
 export const HomePage = () => {
+  const [isTransferModalOpen, setIsTransferModalOpen] =
+    useState<boolean>(false);
   const isTransactionModalOpen = useTransactionStore(
     (state) => state.isTransactionModalOpen
   );
@@ -54,13 +57,21 @@ export const HomePage = () => {
               optionValue="id"
             />
           </div>
-          <MaiButton
-            icon="pi pi-plus"
-            label="Añadir transaccción"
-            className="w-full bg-transparent border-dashed border-2 border-gray-500 hover:bg-primary rounded-2xl"
-            type="button"
-            onClick={openModal}
-          />
+          <div className="w-full flex gap-2 items-center justify-start">
+            <MaiButton
+              icon="pi pi-plus"
+              label="Añadir transaccción"
+              className="w-full bg-transparent text-white border-dashed border-2 border-gray-500 hover:bg-primary rounded-2xl"
+              type="button"
+              onClick={openModal}
+            />
+            <MaiButton
+              icon="pi pi-arrow-right-arrow-left"
+              type="button"
+              className="bg-transparent text-white border-dashed border-2 border-gray-500 hover:bg-primary rounded-xl"
+              onClick={() => setIsTransferModalOpen(true)}
+            />
+          </div>
         </div>
         <div className="w-full flex flex-col gap-2 items-center justify-start">
           <TransactionCard />
@@ -72,6 +83,12 @@ export const HomePage = () => {
           onClose={() => {
             setisTransactionModalOpen(false);
           }}
+        />
+      )}
+      {isTransferModalOpen && (
+        <CreateTransferModal
+          isDialogOpen={isTransferModalOpen}
+          setIsDialogOpen={setIsTransferModalOpen}
         />
       )}
     </div>

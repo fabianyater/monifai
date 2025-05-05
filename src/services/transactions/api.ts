@@ -80,8 +80,13 @@ export const getTransactionsSummaryByCategory = async (
 export const getTransactionsByCategoryName = async (
   pocketId: number,
   categoryName: string,
-  type: TransactionType
+  type: TransactionType,
+  startDate?: Date,
+  endDate?: Date
 ): Promise<TransactionResponse[]> => {
+  const startDateString = startDate?.toISOString().split("T")[0];
+  const endDateString = endDate?.toISOString().split("T")[0];
+
   const response = await axiosConfig.get<ApiResponse<TransactionResponse[]>>(
     "/transactions/category",
     {
@@ -89,6 +94,8 @@ export const getTransactionsByCategoryName = async (
         pocketId,
         categoryName,
         type,
+        startDate: startDateString,
+        endDate: endDateString,
       },
     }
   );
