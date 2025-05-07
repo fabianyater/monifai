@@ -14,18 +14,20 @@ import {
 } from "../services/transactions/queries";
 
 export const TransactionsPage = () => {
-  const [isFilteringByDate, setIsFilteringByDate] = useState(false);
-
   const [dates, setDates] = useState<Date[]>([]);
   const transactionType = useTransactionStore((state) => state.transactionType);
   const pocketId = usePocketStore((state) => state.selectedPocket?.id);
   const { categoryName } = useParams();
-  const { queryKey, queryFn } = useTransactionsByCategoryName(
+
+  const isFilteringByDate = dates.length === 2;
+
+  const transactionsByCategory = useTransactionsByCategoryName(
     categoryName ?? "",
     pocketId ?? 0,
     transactionType
   );
-  const { queryKey: filteredByDateQueryKey, queryFn: filteredByDateQueryFn } =
+
+  const transactionsByCategoryFilteredByDate =
     useTransactionsByCategoryNameFilteredByDate(
       categoryName ?? "",
       pocketId ?? 0,
@@ -34,11 +36,26 @@ export const TransactionsPage = () => {
       dates[1]
     );
 
-  const { data, isPending } = useQuery({
-    queryKey: isFilteringByDate ? filteredByDateQueryKey : queryKey,
-    queryFn: isFilteringByDate ? filteredByDateQueryFn : queryFn,
+  const queryResult = useQuery({
+    queryKey: isFilteringByDate
+      ? [
+          "transactions-by-category-dates",
+          categoryName,
+          pocketId,
+          transactionType,
+          dates,
+        ]
+      : ["transactions-by-category", categoryName, pocketId, transactionType],
+    queryFn: () =>
+      isFilteringByDate
+        ? transactionsByCategoryFilteredByDate.queryFn()
+        : transactionsByCategory.queryFn(),
     enabled: !!categoryName,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: false,
   });
+
+  const { data, isPending } = queryResult;
 
   const showSingular = data?.length === 1 ? "Transacción" : "Transacciones";
 
@@ -111,10 +128,10 @@ export const TransactionsPage = () => {
             showIcon
             value={dates}
             onChange={(e) => {
-              setDates(
-                (e.value ?? []).filter((date): date is Date => date !== null)
+              const selectedDates = (e.value ?? []).filter(
+                (date): date is Date => date !== null
               );
-              setIsFilteringByDate(true);
+              setDates(selectedDates);
             }}
             selectionMode="range"
             readOnlyInput
