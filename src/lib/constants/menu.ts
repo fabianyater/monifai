@@ -30,7 +30,7 @@ export const MAIN_MENU_ITEMS: Item[] = [
   {
     id: 6,
     label: "Presupuestos",
-    icon: "pi pi-fw pi-money-bill",
+    icon: "pi pi-fw pi-calendar",
     path: ROUTES.BUDGETS,
   }
 ];
