@@ -1,61 +1,83 @@
 import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
 import { Tooltip } from "primereact/tooltip";
-import { useMemo } from "react";
-import { getContrastColor } from "../../lib/helpers/invertColor";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../../lib/store/useUserStore";
-import { MaiButton } from "../atoms/MaiButton";
 
 type HeaderProps = {
   toggleSidebar: () => void;
 };
 
-export const Header = ({ toggleSidebar }: HeaderProps) => {
-  const user = useUserStore((state) => state.user);
+const genInitials = (name: string) => {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("");
+};
 
-  const { backgroundColor} = useMemo(() => {
-    const bg = user?.color ?? "#0f28b8";
-    const text = getContrastColor(bg);
-    return { backgroundColor: bg, textColor: text };
-  }, [user?.color]);
+export const Header = ({ toggleSidebar }: HeaderProps) => {
+  const [scrolled, setScrolled] = useState<boolean>(false);
+
+  const user = useUserStore((state) => state.user);
 
   const isLoading = !user?.name;
 
-  return (
-    <header className="w-full flex items-center justify-between py-4 pr-4 lg:px-0">
-      <div className="flex items-center justify-center gap-2">
-        <MaiButton
-          className="border-none focus:shadow-none text-white"
-          icon="pi pi-bars"
-          size="large"
-          rounded
-          style={{ backgroundColor: "transparent" }}
-          onClick={toggleSidebar}
-        />
-        <h1 className="text-3xl font-normal">
-          Monif<span className="font-black">AI</span>
-        </h1>
-      </div>
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
 
-      {isLoading ? (
-        <Skeleton shape="circle" size="3rem" />
-      ) : (
-        <>
-          <Tooltip target=".avatar" content={user.name} position="left" />
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-20 py-4 px-4 md:px-6 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Button
+            className="border-none focus:shadow-none text-white"
+            icon="pi pi-bars"
+            size="large"
+            rounded
+            style={{ backgroundColor: "transparent" }}
+            onClick={toggleSidebar}
+          />
+
+          <h1 className="text-xl md:text-2xl font-bold text-white">MonifAI</h1>
+        </div>
+
+        <Tooltip target=".avatar" content={user?.name} position="left" />
+        {isLoading ? (
+          <Skeleton shape="circle" size="3rem" />
+        ) : (
           <Avatar
-            className="avatar"
-            label={user.name.charAt(0).toUpperCase()}
+            className="avatar bg-purple-600"
+            label={genInitials(user?.name)}
             size="xlarge"
             shape="circle"
             style={{
-              backgroundColor,
-              fontWeight: "900",
-              width: "50px",
-              height: "50px",
+              fontWeight: "500",
+              width: "3rem",
+              height: "3rem",
             }}
           />
-        </>
-      )}
+        )}
+      </div>
     </header>
   );
 };
