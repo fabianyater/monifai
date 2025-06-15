@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPocket, transferBetweenPockets } from "./api";
+import { PocketRequest } from "../../lib/types/Pocket";
+import { createPocket, transferBetweenPockets, updatePocket } from "./api";
 import { pocketKeys } from "./keys";
 
 export const useCreatePocket = () => {
@@ -7,6 +8,21 @@ export const useCreatePocket = () => {
   return useMutation({
     mutationKey: [...pocketKeys.pockets, "create"],
     mutationFn: createPocket,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [pocketKeys.pockets],
+        refetchType: "active",
+      });
+    },
+  });
+};
+
+export const useUpdatePocket = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: [...pocketKeys.pockets, "update"],
+    mutationFn: (data: { pocketId: number; pocket: PocketRequest }) =>
+      updatePocket(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [pocketKeys.pockets],
