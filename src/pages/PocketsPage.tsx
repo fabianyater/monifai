@@ -4,15 +4,21 @@ import { toast } from "sonner";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { PocketCard } from "../components/atoms/PocketCard";
 import { CreatePocketModal } from "../components/molecules/CreatePocketModal";
+import { usePocketStore } from "../lib/store/usePocketStore";
+import { PocketResponse } from "../lib/types/Pocket";
 import { usePockets } from "../services/pockets/queries";
 
 export const PocketsPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { queryFn, queryKey } = usePockets(); // Replace 1 with the actual userId
+  const [editPocket, setEditPocket] = useState<boolean>(false);
+  const { queryFn, queryKey } = usePockets();
   const { data, isLoading, isError } = useQuery({
     queryKey,
     queryFn,
   });
+  const pocketToEdit = usePocketStore(
+    (state) => state.pocketToEdit
+  ) as PocketResponse;
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -33,7 +39,11 @@ export const PocketsPage = () => {
       {data && data.length > 0 ? (
         <div className="flex flex-wrap items-start gap-4">
           {data.map((pocket) => (
-            <PocketCard key={pocket.id} pocket={pocket} />
+            <PocketCard
+              key={pocket.id}
+              pocket={pocket}
+              setIsDialogOpen={setEditPocket}
+            />
           ))}
         </div>
       ) : (
@@ -52,6 +62,13 @@ export const PocketsPage = () => {
         <CreatePocketModal
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
+        />
+      )}
+      {editPocket && (
+        <CreatePocketModal
+          isDialogOpen={editPocket}
+          setIsDialogOpen={setEditPocket}
+          pocketToEdit={pocketToEdit}
         />
       )}
     </>
