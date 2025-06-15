@@ -15,3 +15,15 @@ export const formatAmount = (
 
   return new Intl.NumberFormat(locale, options).format(amount);
 };
+
+export const formatCurrency = (
+  amount: number, 
+  currency: string = 'COP', 
+  locale: string = 'es-CO'
+): string => {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 2,
+  }).format(amount);
+};
