@@ -2,6 +2,7 @@ import { axiosConfig } from "../../lib/helpers/axios/axiosConfig";
 import { ApiResponse } from "../../lib/types/ApiResponse";
 import {
   Pocket,
+  PocketBalanceSummary,
   PocketRequest,
   PocketResponse,
   PocketTransferRequest,
@@ -14,8 +15,10 @@ export const getPockets = async (): Promise<Pocket[]> => {
   return response.data.data;
 };
 
-export const getPocketBalance = async (pocketId: number): Promise<number> => {
-  const response = await axiosConfig.get<ApiResponse<number>>(
+export const getPocketBalance = async (
+  pocketId: number
+): Promise<PocketBalanceSummary> => {
+  const response = await axiosConfig.get<ApiResponse<PocketBalanceSummary>>(
     `/pockets/${pocketId}/balance`
   );
 
