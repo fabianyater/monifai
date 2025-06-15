@@ -61,7 +61,8 @@ export type TransactionResponse = {
   category: string;
   emoji: string;
   date: string;
-}
+  type?: TransactionType;
+};
 
 export type LoanTransactionsResponse = {
   id: number;
@@ -71,8 +72,6 @@ export type LoanTransactionsResponse = {
   amount: number;
   date: string;
 };
-
-
 
 export const transactionTypes: TransactionTypeOption[] = [
   {
