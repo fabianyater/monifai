@@ -22,7 +22,7 @@ export const TransactionSummary = () => {
           Total{" "}
         </span>
         <span className="text-sm lg:text-base font-black">
-          {isLoading ? "..." : formatAmount(data ?? 0)}
+          {isLoading ? "..." : formatAmount(data?.currentBalance ?? 0)}
         </span>
       </div>
     </div>
