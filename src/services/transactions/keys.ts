@@ -5,4 +5,5 @@ export const transactionKeys = {
   transactionSummaryByCategory: ["transactionSummaryByCategory"] as const,
   transactionsByCategoryName: ["transactionsByCategoryName"] as const,
   loanTransactions: ["loanTransactions"] as const,
+  latestTransactions: ["latestTransactions"] as const,
 };
