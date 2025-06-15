@@ -113,3 +113,18 @@ export const getLoanTransactions = async (
 
   return response.data.data;
 };
+
+export const getLatestTransactions = async (
+  pocketId: number
+): Promise<TransactionResponse[]> => {
+  const response = await axiosConfig.get<ApiResponse<TransactionResponse[]>>(
+    `/transactions/latest`,
+    {
+      params: {
+        pocketId,
+      },
+    }
+  );
+
+  return response.data.data;
+};
