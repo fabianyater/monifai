@@ -8,6 +8,7 @@ export type Pocket = {
 export type PocketRequest = {
   name: string;
   balance: number;
+  excludeBalance: boolean;
 };
 
 export type PocketResponse = {
@@ -19,6 +20,13 @@ export type PocketResponse = {
 
 export type TotalBalanceResponse = {
   totalBalance: number;
+};
+
+export type PocketBalanceSummary = {
+  currentBalance: number;
+  monthlyNetChange: number;
+  previousMonthlyNetChange: number;
+  balanceTrendPercentage: number;
 };
 
 export type PocketTransferRequest = {
