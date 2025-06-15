@@ -1,5 +1,6 @@
 import { TransactionType } from "../../lib/types/Transactions";
 import {
+  getLatestTransactions,
   getLoanTransactions,
   getMonthlyExpenses,
   getMonthlyIncomes,
@@ -8,7 +9,10 @@ import {
 } from "./api";
 import { transactionKeys } from "./keys";
 
-export const useMonthlyBalance = (pocketId: number, txnType: string) => {
+export const useMonthlyBalance = (
+  pocketId: number,
+  txnType: TransactionType
+) => {
   return {
     queryKey: [transactionKeys.monthlyBalanceByType, pocketId, txnType],
     queryFn: async () => {
@@ -84,5 +88,16 @@ export const useLoanTransactions = (loanId: number, loanType: string) => {
       return response;
     },
     enabled: !!loanId,
+  };
+};
+
+export const useLatestTransactions = (pocketId: number) => {
+  return {
+    queryKey: [transactionKeys.latestTransactions, pocketId],
+    queryFn: async () => {
+      const response = await getLatestTransactions(pocketId);
+      return response;
+    },
+    enabled: !!pocketId,
   };
 };
