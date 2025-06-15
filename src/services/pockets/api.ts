@@ -44,6 +44,21 @@ export const createPocket = async (
   return response.data.data;
 };
 
+export const updatePocket = async ({
+  pocketId,
+  pocket,
+}: {
+  pocketId: number;
+  pocket: PocketRequest;
+}): Promise<void> => {
+  const response = await axiosConfig.put<ApiResponse<void>>(
+    `/pockets/${pocketId}`,
+    pocket
+  );
+
+  return response.data.data;
+};
+
 export const transferBetweenPockets = async (
   pocketTransferRequest: PocketTransferRequest
 ): Promise<void> => {
