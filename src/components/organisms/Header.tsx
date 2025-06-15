@@ -17,6 +17,7 @@ const genInitials = (name: string) => {
 };
 
 export const Header = ({ toggleSidebar }: HeaderProps) => {
+  const [greeting, setGreeting] = useState<string>("");
   const [scrolled, setScrolled] = useState<boolean>(false);
 
   const user = useUserStore((state) => state.user);
@@ -39,6 +40,21 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    const hour = new Date().getHours();
+    let newGreeting = "";
+
+    if (hour >= 5 && hour < 12) {
+      newGreeting = "¡Buenos días👋,";
+    } else if (hour >= 12 && hour < 19) {
+      newGreeting = "¡Buenas tardes👋,";
+    } else {
+      newGreeting = "¡Buenas noches👋,";
+    }
+
+    setGreeting(newGreeting);
+  }, []);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-20 py-4 px-4 md:px-6 transition-all duration-300 ${
@@ -59,6 +75,12 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
           />
 
           <h1 className="text-xl md:text-2xl font-bold text-white">MonifAI</h1>
+        </div>
+
+        <div className="hidden md:block">
+          <h2 className="text-lg font-medium text-gray-700 dark:text-gray-200">
+            {greeting} <span className="font-bold ml-2">{user?.name}</span>!
+          </h2>
         </div>
 
         <Tooltip target=".avatar" content={user?.name} position="left" />
