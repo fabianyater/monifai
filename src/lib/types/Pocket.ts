@@ -3,12 +3,14 @@ export type Pocket = {
   name: string;
   balance: number;
   emoji: string;
+  excludeBalance: boolean;
 };
 
 export type PocketRequest = {
   name: string;
   balance: number;
   excludeBalance: boolean;
+  emoji?: string;
 };
 
 export type PocketResponse = {
@@ -16,6 +18,7 @@ export type PocketResponse = {
   name: string;
   balance: number;
   emoji: string;
+  excludeBalance: boolean;
 };
 
 export type TotalBalanceResponse = {
