@@ -13,7 +13,15 @@ const value = {
   ripple: true,
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
