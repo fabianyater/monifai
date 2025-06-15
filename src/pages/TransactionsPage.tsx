@@ -51,8 +51,6 @@ export const TransactionsPage = () => {
         ? transactionsByCategoryFilteredByDate.queryFn()
         : transactionsByCategory.queryFn(),
     enabled: !!categoryName,
-    refetchOnReconnect: true,
-    refetchOnWindowFocus: false,
   });
 
   const { data, isPending } = queryResult;
