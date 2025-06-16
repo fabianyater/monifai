@@ -11,11 +11,11 @@ export const usePockets = () => {
   };
 };
 
-export const useTotalBalance = (pocketId: number) => {
+export const useTotalBalance = (pocketId: number, startDate: Date) => {
   return {
-    queryKey: [pocketKeys.totalBalance, pocketId],
+    queryKey: [pocketKeys.totalBalance, pocketId, startDate],
     queryFn: async () => {
-      const response = await getPocketBalance(pocketId);
+      const response = await getPocketBalance(pocketId, startDate);
       return response;
     },
     enabled: !!pocketId,

@@ -11,15 +11,21 @@ import { transactionKeys } from "./keys";
 
 export const useMonthlyBalance = (
   pocketId: number,
-  txnType: TransactionType
+  txnType: TransactionType,
+  startDate: Date
 ) => {
   return {
-    queryKey: [transactionKeys.monthlyBalanceByType, pocketId, txnType],
+    queryKey: [
+      transactionKeys.monthlyBalanceByType,
+      pocketId,
+      txnType,
+      startDate,
+    ],
     queryFn: async () => {
       const response =
         txnType === "INCOME"
-          ? getMonthlyIncomes(pocketId)
-          : getMonthlyExpenses(pocketId);
+          ? getMonthlyIncomes(pocketId, startDate)
+          : getMonthlyExpenses(pocketId, startDate);
       return response;
     },
     enabled: !!pocketId && !!txnType,
@@ -28,12 +34,22 @@ export const useMonthlyBalance = (
 
 export const useTransactionSummaryByCategory = (
   pocketId: number,
-  txnType: string
+  txnType: string,
+  startDate: Date
 ) => {
   return {
-    queryKey: [transactionKeys.transactionSummaryByCategory, pocketId, txnType],
+    queryKey: [
+      transactionKeys.transactionSummaryByCategory,
+      pocketId,
+      txnType,
+      startDate,
+    ],
     queryFn: async () => {
-      const response = getTransactionsSummaryByCategory(pocketId, txnType);
+      const response = getTransactionsSummaryByCategory(
+        pocketId,
+        txnType,
+        startDate
+      );
       return response;
     },
     enabled: !!pocketId && !!txnType,
