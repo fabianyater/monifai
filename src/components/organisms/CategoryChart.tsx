@@ -9,14 +9,17 @@ import { motion } from "framer-motion";
 import { Skeleton } from "primereact/skeleton";
 import { Tooltip } from "primereact/tooltip";
 import { useNavigate } from "react-router";
+import { useDateSelectorStore } from "../../lib/store/useDateSelectorStore";
 import Card, { CardContent, CardHeader, CardTitle } from "../molecules/Card";
 
 export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
+  const date = useDateSelectorStore((state) => state.date);
   const navigate = useNavigate();
   const transactionType = useTransactionStore((state) => state.transactionType);
   const { queryKey, queryFn, enabled } = useTransactionSummaryByCategory(
     pocketId,
-    transactionType
+    transactionType,
+    date
   );
 
   const { data, isLoading } = useQuery({
@@ -32,7 +35,9 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle><Skeleton width="120px"  height="28px"/></CardTitle>
+          <CardTitle>
+            <Skeleton width="120px" height="28px" />
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-start items-end gap-2 w-full px-6 h-[250px]">
