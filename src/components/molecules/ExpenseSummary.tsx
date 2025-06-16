@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "../../lib/helpers/formatAmount";
+import { formatDate } from "../../lib/helpers/formatDate";
+import { useDateSelectorStore } from "../../lib/store/useDateSelectorStore";
 import { usePocketStore } from "../../lib/store/usePocketStore";
 import { useTransactionStore } from "../../lib/store/useTransactionStore";
 import { useTotalBalance } from "../../services/pockets/queries";
@@ -7,13 +9,17 @@ import { useMonthlyBalance } from "../../services/transactions/queries";
 import Card, { CardContent } from "./Card";
 
 export const ExpenseSummary = () => {
+  const startDate = useDateSelectorStore((state) => state.date);
   const selectedPocket = usePocketStore((state) => state.selectedPocket);
   const transactionType = useTransactionStore((state) => state.transactionType);
   const setTransactionType = useTransactionStore(
     (state) => state.setTransactionType
   );
 
-  const { queryKey, queryFn } = useTotalBalance(selectedPocket?.id ?? 0);
+  const { queryKey, queryFn } = useTotalBalance(
+    selectedPocket?.id ?? 0,
+    startDate
+  );
   const { data } = useQuery({
     queryKey,
     queryFn,
@@ -21,7 +27,7 @@ export const ExpenseSummary = () => {
   });
 
   const { queryKey: queryKeyIncome, queryFn: queryFnIngreso } =
-    useMonthlyBalance(selectedPocket?.id ?? 0, "INCOME");
+    useMonthlyBalance(selectedPocket?.id ?? 0, "INCOME", startDate);
   const { data: monthlyIncome } = useQuery({
     queryKey: queryKeyIncome,
     queryFn: queryFnIngreso,
@@ -29,7 +35,7 @@ export const ExpenseSummary = () => {
   });
 
   const { queryKey: queryKeyExpense, queryFn: queryFnGasto } =
-    useMonthlyBalance(selectedPocket?.id ?? 0, "EXPENSE");
+    useMonthlyBalance(selectedPocket?.id ?? 0, "EXPENSE", startDate);
   const { data: monthlyExpense } = useQuery({
     queryKey: queryKeyExpense,
     queryFn: queryFnGasto,
@@ -130,7 +136,7 @@ export const ExpenseSummary = () => {
                 {formatCurrency(monthlyIncome ?? 0)}
               </h3>
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Este mes
+                {formatDate(startDate, false)}
               </p>
             </div>
             <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
@@ -159,7 +165,7 @@ export const ExpenseSummary = () => {
                 {formatCurrency(monthlyExpense ?? 0)}
               </h3>
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Este mes
+                {formatDate(startDate, false)}
               </p>
             </div>
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
