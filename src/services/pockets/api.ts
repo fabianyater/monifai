@@ -16,10 +16,16 @@ export const getPockets = async (): Promise<Pocket[]> => {
 };
 
 export const getPocketBalance = async (
-  pocketId: number
+  pocketId: number,
+  startDate: Date
 ): Promise<PocketBalanceSummary> => {
   const response = await axiosConfig.get<ApiResponse<PocketBalanceSummary>>(
-    `/pockets/${pocketId}/balance`
+    `/pockets/${pocketId}/balance`,
+    {
+      params: {
+        startDate: startDate.toISOString().split("T")[0],
+      },
+    }
   );
 
   return response.data.data;
