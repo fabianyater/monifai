@@ -24,12 +24,16 @@ export const classifyTransaction = async (
   return response.data.data;
 };
 
-export const getMonthlyIncomes = async (pocketId: number): Promise<number> => {
+export const getMonthlyIncomes = async (
+  pocketId: number,
+  startDate: Date
+): Promise<number> => {
   const response = await axiosConfig.get<ApiResponse<number>>(
     `/transactions/monthly-income`,
     {
       params: {
         pocketId,
+        startDate: startDate.toISOString().slice(0, 19),
       },
     }
   );
@@ -37,12 +41,16 @@ export const getMonthlyIncomes = async (pocketId: number): Promise<number> => {
   return response.data.data;
 };
 
-export const getMonthlyExpenses = async (pocketId: number): Promise<number> => {
+export const getMonthlyExpenses = async (
+  pocketId: number,
+  startDate: Date
+): Promise<number> => {
   const response = await axiosConfig.get<ApiResponse<number>>(
     `/transactions/monthly-expense`,
     {
       params: {
         pocketId,
+        startDate: startDate.toISOString().slice(0, 19),
       },
     }
   );
@@ -63,7 +71,8 @@ export const createTransaction = async (
 
 export const getTransactionsSummaryByCategory = async (
   pocketId: number,
-  transactionType: string
+  transactionType: string,
+  startDate: Date
 ): Promise<TransactionSummaryByCategories[]> => {
   const response = await axiosConfig.get<
     ApiResponse<TransactionSummaryByCategories[]>
@@ -71,6 +80,7 @@ export const getTransactionsSummaryByCategory = async (
     params: {
       pocketId,
       transactionType,
+      startDate: startDate.toISOString().slice(0, 19),
     },
   });
 
