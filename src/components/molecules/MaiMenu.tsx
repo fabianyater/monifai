@@ -11,7 +11,7 @@ export const MaiMenu = ({ onHide }: MaiMenuProps) => {
   return (
     <ul className="flex flex-col gap-2 mt-4">
       {MAIN_MENU_ITEMS.map((item) => {
-        const isActive = location.pathname === item.path;
+        const isActive = location.pathname.startsWith(item.path);
 
         return (
           <li key={item.id}>
