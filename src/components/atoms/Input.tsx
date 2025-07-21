@@ -2,7 +2,14 @@ import { InputText, InputTextProps } from "primereact/inputtext";
 
 type InputProps = Pick<
   InputTextProps,
-  "type" | "placeholder" | "value" | "required" | "onChange" | "name"
+  | "type"
+  | "placeholder"
+  | "value"
+  | "required"
+  | "onChange"
+  | "name"
+  | "min"
+  | "max"
 > & {
   label: string;
   error?: string;

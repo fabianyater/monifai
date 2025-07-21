@@ -94,9 +94,6 @@ export const getTransactionsByCategoryName = async (
   startDate?: Date,
   endDate?: Date
 ): Promise<TransactionResponse[]> => {
-  const startDateString = startDate?.toISOString().split("T")[0];
-  const endDateString = endDate?.toISOString().split("T")[0];
-
   const response = await axiosConfig.get<ApiResponse<TransactionResponse[]>>(
     "/transactions/category",
     {
@@ -104,8 +101,8 @@ export const getTransactionsByCategoryName = async (
         pocketId,
         categoryName,
         type,
-        startDate: startDateString,
-        endDate: endDateString,
+        startDate,
+        endDate,
       },
     }
   );
@@ -132,6 +129,23 @@ export const getLatestTransactions = async (
     {
       params: {
         pocketId,
+      },
+    }
+  );
+
+  return response.data.data;
+};
+
+export const getTransactions = async (
+  pocketId: number,
+  startMonth?: Date
+): Promise<TransactionResponse[]> => {
+  const response = await axiosConfig.get<ApiResponse<TransactionResponse[]>>(
+    `/transactions/all`,
+    {
+      params: {
+        pocketId,
+        startMonth: startMonth?.toISOString().split("T")[0],
       },
     }
   );

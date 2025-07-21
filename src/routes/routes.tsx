@@ -12,6 +12,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { PocketsPage } from "../pages/PocketsPage";
 import { RegisterPage } from "../pages/RegisterPage";
+import { TransactionsByCategoryPage } from "../pages/TransactionsByCategoryPage";
 import { TransactionsPage } from "../pages/TransactionsPage";
 import PrivateRoute from "./PrivateRoute";
 
@@ -30,10 +31,14 @@ export default function RoutesPage() {
           <Route index element={<Navigate to={ROUTES.HOME} replace />} />
           <Route path={ROUTES.HOME} element={<HomePage />} />
           <Route path={ROUTES.CATEGORIES} element={<CategoriesPage />} />
+          <Route
+            path={`${ROUTES.TRANSACTIONS}/all`}
+            element={<TransactionsPage />}
+          />
           <Route path={ROUTES.POCKETS} element={<PocketsPage />} />
           <Route
             path={`${ROUTES.TRANSACTIONS}/:categoryName`}
-            element={<TransactionsPage />}
+            element={<TransactionsByCategoryPage />}
           />
           <Route path={ROUTES.LOANS} element={<LoansPage />} />
           <Route

@@ -4,6 +4,7 @@ import {
   LoanPaymentRequest,
   LoanRequest,
   LoanResponse,
+  TotalLoanBalanceResponse,
 } from "../../lib/types/Loan";
 
 export const createLoan = async (loan: LoanRequest): Promise<void> => {
@@ -38,3 +39,12 @@ export const makePayment = async (
 
   return response.data;
 };
+
+export const getTotalLoanBalance =
+  async (): Promise<TotalLoanBalanceResponse> => {
+    const response = await axiosConfig.get<
+      ApiResponse<TotalLoanBalanceResponse>
+    >(`/loans/total-loaned`);
+
+    return response.data.data;
+  };

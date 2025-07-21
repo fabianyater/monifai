@@ -76,7 +76,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
       </div>
       <input
         ref={inputRef}
-        type="date"
+        type="datetime-local"
         value={value}
         onChange={handleChange}
         className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"

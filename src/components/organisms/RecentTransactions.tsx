@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import { formatCurrency } from "../../lib/helpers/formatAmount";
-import { formatDate } from "../../lib/helpers/formatDate";
+import { formatDateWithTime } from "../../lib/helpers/formatDate";
 import { useLatestTransactions } from "../../services/transactions/queries";
 import Card, { CardContent, CardHeader, CardTitle } from "../molecules/Card";
 
@@ -15,6 +16,8 @@ const RecentTransactions = ({ pocketId }: RecentTransactionsProps) => {
     queryFn,
     enabled: !!pocketId,
   });
+
+  const navigate = useNavigate();
 
   return (
     <Card className="h-full">
@@ -31,9 +34,9 @@ const RecentTransactions = ({ pocketId }: RecentTransactionsProps) => {
               >
                 <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3">
                   {transaction.type === "EXPENSE" ? (
-                    <i className="pi pi-arrow-down-right text-xl text-red-500" />
+                    <i className="pi pi-arrow-up-right text-xl text-red-500" />
                   ) : (
-                    <i className="pi pi-arrow-up-right text-xl text-green-500" />
+                    <i className="pi pi-arrow-down-left text-xl text-green-500" />
                   )}
                 </div>
 
@@ -42,7 +45,7 @@ const RecentTransactions = ({ pocketId }: RecentTransactionsProps) => {
                     {transaction.description}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {formatDate(transaction.date)}
+                    {formatDateWithTime(transaction.date)}
                   </p>
                 </div>
 
@@ -74,7 +77,10 @@ const RecentTransactions = ({ pocketId }: RecentTransactionsProps) => {
           )}
 
           {transactions && transactions?.length > 0 && (
-            <button className="w-full mt-4 py-2 text-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
+            <button
+              className="w-full mt-4 py-2 text-center text-sm font-medium text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
+              onClick={() => navigate("/transactions/all")}
+            >
               Ver todas las transacciones
             </button>
           )}

@@ -3,6 +3,7 @@ import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
 import { Tooltip } from "primereact/tooltip";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "../../lib/store/useAuthStore";
 import { useUserStore } from "../../lib/store/useUserStore";
 
 type HeaderProps = {
@@ -21,6 +22,8 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
 
   const user = useUserStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  const checkSession = useAuthStore((state) => state.checkSession);
 
   const isLoading = !user?.name;
 
@@ -55,6 +58,12 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
     setGreeting(newGreeting);
   }, []);
 
+  const handleLogout = (e: React.FormEvent) => {
+    e.preventDefault();
+    logout();
+    checkSession();
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-20 py-4 px-4 md:px-6 transition-all duration-300 ${
@@ -84,21 +93,29 @@ export const Header = ({ toggleSidebar }: HeaderProps) => {
         </div>
 
         <Tooltip target=".avatar" content={user?.name} position="left" />
-        {isLoading ? (
-          <Skeleton shape="circle" size="3rem" />
-        ) : (
-          <Avatar
-            className="avatar bg-purple-600"
-            label={genInitials(user?.name)}
-            size="xlarge"
-            shape="circle"
-            style={{
-              fontWeight: "500",
-              width: "3rem",
-              height: "3rem",
-            }}
+        <div className="flex items-center justify-center gap-2">
+          {isLoading ? (
+            <Skeleton shape="circle" size="3rem" />
+          ) : (
+            <Avatar
+              className="avatar bg-purple-600"
+              label={genInitials(user?.name)}
+              size="xlarge"
+              shape="circle"
+              style={{
+                fontWeight: "500",
+                width: "3rem",
+                height: "3rem",
+              }}
+            />
+          )}
+          <Button
+            icon="pi pi-sign-out"
+            rounded
+            className="bg-transparent text-white border-none"
+            onClick={handleLogout}
           />
-        )}
+        </div>
       </div>
     </header>
   );

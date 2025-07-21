@@ -1,4 +1,4 @@
-import { getLoan, getLoans } from "./api";
+import { getLoan, getLoans, getTotalLoanBalance } from "./api";
 import { loanKeys } from "./keys";
 
 export const useLoans = () => {
@@ -19,5 +19,15 @@ export const useLoan = (loanId: number) => {
       return response;
     },
     enabled: !!loanId,
+  };
+};
+
+export const useTotalLoanBalance = () => {
+  return {
+    queryKey: [loanKeys.loan],
+    queryFn: async () => {
+      const response = await getTotalLoanBalance();
+      return response;
+    },
   };
 };

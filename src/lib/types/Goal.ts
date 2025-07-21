@@ -18,7 +18,8 @@ export type GoalResponse = {
 export type GoalTransactionRequest = {
   goalId: number;
   amount: number;
-  type: GoalTransactionType
+  type: GoalTransactionType;
+  pocketId: number;
 };
 
 export type GoalTransactionsResponse = {

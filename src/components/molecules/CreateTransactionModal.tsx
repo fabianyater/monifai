@@ -1,3 +1,4 @@
+import { Calendar } from "primereact/calendar";
 import { Dialog } from "primereact/dialog";
 import { useState } from "react";
 import { PERIODICITY_OPTIONS } from "../../lib/constants/selectOptions";
@@ -9,7 +10,6 @@ import {
   TransactionType,
 } from "../../lib/types/Transactions";
 import { useCreateTransactionMutation } from "../../services/transactions/mutations";
-import { DatePicker } from "../atoms/DatePicker";
 import { MaiButton } from "../atoms/MaiButton";
 import TransactionToggle from "../atoms/TranscationToggle";
 import { CategoryPillsWrapper } from "./CategoryPillsWrapper";
@@ -105,12 +105,18 @@ export const CreateTransactionModal = ({
             }}
           >
             <div className="w-full flex items-center justify-start gap-4">
-              <DatePicker
-                value={formData.date.toISOString().split("T")[0]}
-                onChange={(newDate) =>
-                  setFormData((prev) => ({ ...prev, date: new Date(newDate) }))
+              <input
+                type="datetime-local"
+                value={formData.date.toISOString().slice(0, 16)}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    date: new Date(e.target.value),
+                  }))
                 }
+                className="bg-transparent text-white py-2 rounded w-full"
               />
+
               <select
                 name="periodicity"
                 className="w-max bg-transparent text-white py-2 rounded"

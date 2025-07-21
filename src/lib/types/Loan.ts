@@ -1,5 +1,5 @@
 export type LoanType = "LENDER" | "BORROWER";
-export type LoanStatus = "ACTIVE" | "COMPLETED"
+export type LoanStatus = "ACTIVE" | "COMPLETED";
 export type LoanRequest = {
   amount: number;
   loanParty: string;
@@ -24,4 +24,8 @@ export type LoanPaymentRequest = {
   loanId: number;
   pocketId: number;
   amount: number;
+};
+
+export type TotalLoanBalanceResponse = {
+  balance: number;
 };

@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import {
   GoalTransactionRequest,
@@ -9,6 +11,7 @@ import {
   useMakeDeposit,
   useMakeWithdraw,
 } from "../../services/goals/mutations";
+import { usePockets } from "../../services/pockets/queries";
 import { Input } from "../atoms/Input";
 
 type AddGoalTransactionDialogProps = {
@@ -28,6 +31,13 @@ export const AddGoalTransactionDialog = ({
     goalId: goalId,
     amount: 0,
     type: transactionType,
+    pocketId: 0,
+  });
+
+  const { queryFn, queryKey } = usePockets();
+  const { data: pockets } = useQuery({
+    queryKey,
+    queryFn,
   });
 
   useEffect(() => {
@@ -54,6 +64,7 @@ export const AddGoalTransactionDialog = ({
               goalId: goalId,
               amount: 0,
               type: transactionType,
+              pocketId: 0,
             });
           },
           onError: (error) => {
@@ -73,6 +84,7 @@ export const AddGoalTransactionDialog = ({
               goalId: goalId,
               amount: 0,
               type: transactionType,
+              pocketId: 0,
             });
           },
           onError: (error) => {
@@ -84,8 +96,7 @@ export const AddGoalTransactionDialog = ({
   };
 
   const isPending = isDepositPending || isWithdrawPending;
-  const transactionLabel =
-    transactionType === "DEPOSIT" ? "deposito" : "retiro";
+  const isDeposit = transactionType === "DEPOSIT" ? "deposito" : "retiro";
 
   return (
     <Dialog
@@ -96,7 +107,7 @@ export const AddGoalTransactionDialog = ({
       className="w-3/4 sm:w-[26rem] rounded-3xl shadow-2xl bg-[#2D2D2D]"
       content={() => (
         <section className="flex flex-col gap-4 p-8">
-          <h2 className="text-2xl font-bold">Hacer {transactionLabel}</h2>
+          <h2 className="text-2xl font-bold">Hacer {isDeposit}</h2>
           <form
             onSubmit={handleCreate}
             className="flex flex-col gap-4"
@@ -110,13 +121,32 @@ export const AddGoalTransactionDialog = ({
               type="number"
               placeholder="10000"
               required
+              min={0}
               onChange={(e) =>
                 setFormData({ ...formData, amount: Number(e.target.value) })
               }
               error={formData.amount ? "" : "Este campo es requerido"}
               className="bg-transparent text-white border-gray-500"
             />
-
+            <label className="flex flex-col gap-2">
+              <span>
+                {transactionType === "DEPOSIT"
+                  ? "¿De dónde sale el dinero?"
+                  : "¿Hacia dónde va el dinero?"}
+              </span>
+              <Dropdown
+                placeholder="Selecciona un bolsillo"
+                options={pockets?.map((pocket) => ({
+                  label: pocket.name,
+                  value: pocket.id,
+                }))}
+                name="pocketId"
+                value={formData.pocketId}
+                onChange={(e) =>
+                  setFormData({ ...formData, pocketId: e.value as number })
+                }
+              />
+            </label>
             <Button
               label={transactionType === "DEPOSIT" ? "Depositar" : "Retirar"}
               type="submit"

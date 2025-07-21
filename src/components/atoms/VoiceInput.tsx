@@ -90,7 +90,7 @@ export const VoiceInput = () => {
           />
         )}
       </div>
-      <p className="italic text-center font-thin text-gray-400 min-h-[1.5rem] px-4">
+      {/* <p className="italic text-center font-thin text-gray-400 min-h-[1.5rem] px-4">
         {(() => {
           let displayText = "Click para empezar a hablar";
           if (startRecording) {
@@ -100,7 +100,7 @@ export const VoiceInput = () => {
           }
           return displayText;
         })()}
-      </p>
+      </p> */}
     </div>
   );
 };

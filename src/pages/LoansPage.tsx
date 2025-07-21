@@ -6,14 +6,21 @@ import { toast } from "sonner";
 import { MaiButton } from "../components/atoms/MaiButton";
 import { CreateLoanModal } from "../components/molecules/CreateLoanModal";
 import { formatAmount } from "../lib/helpers/formatAmount";
-import { useLoans } from "../services/loans/queries";
+import { useLoans, useTotalLoanBalance } from "../services/loans/queries";
 
 export const LoansPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { queryFn, queryKey } = useLoans();
+  const { queryKey, queryFn } = useLoans();
   const { data, isLoading, isError } = useQuery({
     queryKey,
     queryFn,
+  });
+
+  const { queryKey: totalBalanceKey, queryFn: totalBalanceFn } =
+    useTotalLoanBalance();
+  const { data: totalBalanceData, isLoading: totalBalanceLoading } = useQuery({
+    queryKey: totalBalanceKey,
+    queryFn: totalBalanceFn,
   });
   const navigate = useNavigate();
 
@@ -37,6 +44,15 @@ export const LoansPage = () => {
           className="border border-gray-400 text-gray-200 hover:bg-gray-200 hover:text-black transition-colors duration-200"
           onClick={() => setIsDialogOpen(true)}
         />
+      </div>
+
+      <div className="pb-5">
+        <h3 className="font-semibold text-2xl tracking-tight">
+          Total adeudado:{" "}
+          {totalBalanceLoading
+            ? "..."
+            : formatAmount(totalBalanceData?.balance || 0)}
+        </h3>
       </div>
 
       {data && data.length > 0 ? (

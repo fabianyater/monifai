@@ -63,7 +63,7 @@ export const ExpenseSummary = () => {
             </div>
             <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
               <span className="text-purple-600 dark:text-purple-400">
-                {selectedPocket?.emoji}
+                <i className="pi pi-check text-xl text-green-500" />
               </span>
             </div>
           </div>

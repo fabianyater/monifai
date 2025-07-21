@@ -1,4 +1,5 @@
 export const transactionKeys = {
+  transactions: ["transactions"] as const,
   monthlyBalanceByType: ["monthlyBalanceByType"] as const,
   classifyTransaction: ["classifyTransaction"] as const,
   createTransaction: ["createTransaction"] as const,

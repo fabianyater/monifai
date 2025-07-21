@@ -59,7 +59,7 @@ export const CategoryChart = ({ pocketId }: CategoryChartProps) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{title} por categoría</CardTitle>
       </CardHeader>
       <CardContent>
         {data && data.length > 0 ? (

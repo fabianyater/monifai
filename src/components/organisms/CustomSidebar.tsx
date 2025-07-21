@@ -1,13 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formatAmount } from "../../lib/helpers/formatAmount";
 import { usePocketStore } from "../../lib/store/usePocketStore";
-import { Pocket } from "../../lib/types/Pocket";
-import {
-  useAllPocketsBalance,
-  usePockets,
-} from "../../services/pockets/queries";
-import { MaiSelect } from "../atoms/MaiSelect";
+import { useAllPocketsBalance } from "../../services/pockets/queries";
 import { MaiMenu } from "../molecules/MaiMenu";
 
 interface CustomSidebarProps {
@@ -18,13 +13,7 @@ interface CustomSidebarProps {
 export const CustomSidebar = ({ isOpen, onClose }: CustomSidebarProps) => {
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
   const selectedPocket = usePocketStore((state) => state.selectedPocket);
-  const setSelectedPocket = usePocketStore((state) => state.setSelectedPocket);
 
-  const { queryKey, queryFn } = usePockets();
-  const { data, isLoading } = useQuery({
-    queryKey,
-    queryFn,
-  });
   const { queryKey: queryKeyBalance, queryFn: queryFnBalance } =
     useAllPocketsBalance();
   const { data: balance } = useQuery({
@@ -32,12 +21,6 @@ export const CustomSidebar = ({ isOpen, onClose }: CustomSidebarProps) => {
     queryFn: queryFnBalance,
     enabled: !!selectedPocket?.id,
   });
-
-  useEffect(() => {
-    if (data && data.length > 0 && !selectedPocket) {
-      setSelectedPocket(data[0]);
-    }
-  }, [data, selectedPocket, setSelectedPocket]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -69,16 +52,7 @@ export const CustomSidebar = ({ isOpen, onClose }: CustomSidebarProps) => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 py-6 px-3 overflow-y-auto">
-            <MaiSelect<Pocket>
-              data={data || []}
-              selectedValue={selectedPocket}
-              setSelectedValue={(value: Pocket) => setSelectedPocket(value)}
-              isLoading={isLoading}
-              optionLabel="name"
-              optionValue="id"
-              classname="w-full"
-            />
+          <nav className="flex-1 px-3 overflow-y-auto">
             <MaiMenu onHide={onClose} />
           </nav>
 

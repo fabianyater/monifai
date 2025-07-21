@@ -15,3 +15,14 @@ export const authenticateUser = async (data: {
 
   return response.data;
 };
+
+export const signOut = async (data: {
+  token: string;
+}): Promise<ApiResponse<void>> => {
+  const response = await axiosConfig.post<ApiResponse<void>>(
+    `${API_URL}/logout`,
+    data
+  );
+
+  return response.data;
+};

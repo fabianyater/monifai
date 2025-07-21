@@ -4,6 +4,7 @@ import {
   getLoanTransactions,
   getMonthlyExpenses,
   getMonthlyIncomes,
+  getTransactions,
   getTransactionsByCategoryName,
   getTransactionsSummaryByCategory,
 } from "./api";
@@ -112,6 +113,17 @@ export const useLatestTransactions = (pocketId: number) => {
     queryKey: [transactionKeys.latestTransactions, pocketId],
     queryFn: async () => {
       const response = await getLatestTransactions(pocketId);
+      return response;
+    },
+    enabled: !!pocketId,
+  };
+};
+
+export const useTransactions = (pocketId: number, startMonth: Date) => {
+  return {
+    queryKey: [transactionKeys.transactions, pocketId, startMonth],
+    queryFn: async () => {
+      const response = await getTransactions(pocketId, startMonth);
       return response;
     },
     enabled: !!pocketId,

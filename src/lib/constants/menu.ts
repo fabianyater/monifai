@@ -16,6 +16,12 @@ export const MAIN_MENU_ITEMS: Item[] = [
     path: ROUTES.CATEGORIES,
   },
   {
+    id: 7,
+    label: "Transacciones",
+    icon: "pi pi-arrow-right-arrow-left",
+    path: ROUTES.TRANSACTIONS,
+  },
+  {
     id: 4,
     label: "Deudas",
     icon: "pi pi-fw pi-money-bill",
@@ -32,5 +38,5 @@ export const MAIN_MENU_ITEMS: Item[] = [
     label: "Presupuestos",
     icon: "pi pi-fw pi-calendar",
     path: ROUTES.BUDGETS,
-  }
+  },
 ];
