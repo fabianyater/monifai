@@ -1,11 +1,17 @@
-import { Button } from "primereact/button";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { toast } from "sonner";
-import { loginUser } from "../api/endpoints/users";
-import { Input } from "../components/Input";
+import { Input } from "../components/atoms/Input";
+import { MaiButton } from "../components/atoms/MaiButton";
+import { ERROR_MESSAGES, ROUTES } from "../lib/constants";
+import { useAuthStore } from "../lib/store/useAuthStore";
+import { authenticateUser } from "../services/auth/api";
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -62,18 +68,27 @@ export const LoginPage = () => {
       return toast.error("Por favor, completa correctamente el formulario");
     }
 
-    toast.promise(loginUser(formData), {
+    toast.promise(authenticateUser(formData), {
       loading: "Iniciando sesión...",
-      success: (res) => {
+      success: async (res) => {
         setFormData({ email: "", password: "" });
-        return res.message || "Registro exitoso";
+        await login(res.data.accessToken);
+        navigate(ROUTES.ROOT);
+        return res.message || "Inicio de sesión exitoso";
       },
       error: (error) => {
-        const message = error.response?.data?.message || "Error inesperado";
-        return message;
+        return error.response?.data?.message || ERROR_MESSAGES.NETWORK;
       },
     });
   };
+
+  if (isLoading) {
+    return toast.loading("Validando token...");
+  }
+
+  if (isLoggedIn) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <div className="flex flex-col-reverse md:flex-row justify-center items-center h-screen">
@@ -104,7 +119,7 @@ export const LoginPage = () => {
             onChange={handleChange}
             error={errors.password}
           />
-          <Button type="submit" label="Inciar sesión" />
+          <MaiButton type="submit" label="Inciar sesión" />
         </form>
         <p className="text-sm">
           ¿No tienes una cuenta?{" "}

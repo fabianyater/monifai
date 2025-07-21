@@ -1,0 +1,76 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+/* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
+@import "primereact/resources/themes/lara-dark-purple/theme.css"
+  layer(primereact);
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+:root {
+  font-family: "Ubuntu", Inter, Avenir, Helvetica, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a1a1a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.p-sidebar .p-sidebar-close-icon {
+  color: #fff;
+}
+
+.p-sidebar .p-sidebar-content {
+  display: flex ;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+@keyframes pulseShadow {
+  0% {
+    box-shadow: 0 0 20px #ff4d4d;
+  }
+  100% {
+    box-shadow: 0 0 35px #ff4d4d;
+  }
+}
+
+.pulse-animation {
+  animation: pulseShadow 0.5s ease-in-out infinite alternate;
+}
+
+/* Esto quita las flechas en navegadores WebKit como Chrome y Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Esto es para Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* En tu archivo global de estilos si usas Tailwind */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
